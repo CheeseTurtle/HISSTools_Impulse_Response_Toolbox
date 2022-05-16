@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\HISSTools_IR_Toolbox_Common\HIRT_Buffer_Access.cpp" />
+    <ClCompile Include="..\HISSTools_IR_Toolbox_Common\HIRT_Core_Functions.cpp" />
+    <ClCompile Include="..\HISSTools_IR_Toolbox_Common\HIRT_Frame_Stats.cpp" />
+    <ClCompile Include="..\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT\HISSTools_FFT.cpp" />
+    <ClCompile Include="..\HISSTools_IR_Toolbox_Dependencies\ibuffer_access.cpp" />
+    <ClCompile Include="..\HISSTools_IR_Toolbox_Objects\spectrumdraw2~.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\symjuncs\j\pgmfiles86\Windows Kits\10\Include\10.0.20348.0\ucrt\ctype.h" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Common\HIRT_Buffer_Access.hpp" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Common\HIRT_Core_Functions.hpp" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Common\HIRT_Frame_Stats.hpp" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\AH_Atomic.h" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\AH_Memory_Swap.h" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\ibuffer.hpp" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\ibuffer_access.hpp" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\Interpolation.hpp" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\SIMDSupport.hpp" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\TableReader.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\x64\MaxAPI.lib" />
+    <Library Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\x64\MaxAudio.lib" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>spectrumdraw2_old~</ProjectName>
+    <ProjectGuid>{e52986fb-ed22-4b35-a8d6-f9e65b77cc43}</ProjectGuid>
+    <RootNamespace>spectrumdraw2_</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="..\Config_HIRT_Win_Debug_32bit.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="..\Config_HIRT_Win_Debug_64bit.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="..\Config_HIRT_Win_Release 32bit.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="..\Config_HIRT_Win_Release 64bit.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes;C:\Users\stan\symjuncs\j\pgmfiles86\Windows Kits\10\Include\10.0.20348.0\ucrt;C:\Users\stan\Documents\GitHub\HISSTools_Impulse_Response_Toolbox\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;C:\Users\stan\Documents\GitHub\HISSTools_Impulse_Response_Toolbox\HISSTools_IR_Toolbox_Dependencies;$(ProjectDir);$(LocalDebuggerWorkingDirectory)</IncludePath>
+    <ExternalIncludePath>$(VC_VC_IncludePath);$(VC_ReferencesPath_x64);$(VC_LibraryPath_x64);$(VC_LibraryPath_VC_x64);$(VC_CRT_SourcePath);$(UniversalCRT_PropsPath);$(UniversalCRT_SourcePath);$(UniversalCRT_LibraryPath_x64);$(UniversalCRT_IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</ExternalIncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(UniversalCRT_LibraryPath_x64)</LibraryPath>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <SourcePath>$(VC_SourcePath);$(VC_CRT_SourcePath);</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\stan\symjuncs\j\pgmfiles86\Windows Kits\10\Include\10.0.20348.0\ucrt;..\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;..\HISSTools_IR_Toolbox_Dependencies;..\HISSTools_IR_Toolbox_Common;..\..\Max6_support\c74support\max-includes;..\..\Max6_support\c74support\msp-includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\x64\MaxAudio.lib;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\x64\MaxAPI.lib;$(CoreLibraryDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\um\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\ucrt\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;..\HISSTools_IR_Toolbox_Dependencies;..\HISSTools_IR_Toolbox_Common;..\..\Max6_support\c74support\max-includes;..\..\Max6_support\c74support\msp-includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;..\HISSTools_IR_Toolbox_Dependencies;..\HISSTools_IR_Toolbox_Common;..\..\Max6_support\c74support\max-includes;..\..\Max6_support\c74support\msp-includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

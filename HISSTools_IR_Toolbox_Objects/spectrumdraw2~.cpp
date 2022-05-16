@@ -14,7 +14,7 @@
 
 // Define common attributes and the class name (for the common attributes file)
 
-#define OBJ_CLASSNAME t_spectrumdraw
+#define OBJ_CLASSNAME t_spectrumdraw2
 #define OBJ_USES_HIRT_READ_ATTR
 
 #include <HIRT_Common_Attribute_Vars.hpp>
@@ -22,7 +22,7 @@
 
 // Defines
 
-constexpr int SPECTRUMDRAW_NUM_CURVES = 4;
+constexpr int SPECTRUMDRAW2_NUM_CURVES = 4;
 
 constexpr double FFTW_TWOPI =    6.28318530717958647692;
 constexpr double FFTW_THREEPI =  9.42477796076937971538;
@@ -74,7 +74,7 @@ enum t_window_type {
 
 static t_class *this_class;
 
-struct t_spectrumdraw
+struct t_spectrumdraw2
 {
     t_pxjbox p_obj;                            // header for UI objects
 
@@ -91,7 +91,7 @@ struct t_spectrumdraw
     t_jrgba u_textcolor;
     t_jrgba u_textbox;
     t_jrgba u_displaytextcolor;
-    t_jrgba curve_colors[SPECTRUMDRAW_NUM_CURVES];
+    t_jrgba curve_colors[SPECTRUMDRAW2_NUM_CURVES];
 
     // Attributes and Parameters
 
@@ -151,20 +151,28 @@ struct t_spectrumdraw
 
     // Curve Data and Params
 
-    bool sig_ins_valid[SPECTRUMDRAW_NUM_CURVES];
+    bool sig_ins_valid[SPECTRUMDRAW2_NUM_CURVES];
 
-    t_safe_mem_swap curve_data[SPECTRUMDRAW_NUM_CURVES];
+    t_safe_mem_swap curve_data[SPECTRUMDRAW2_NUM_CURVES];
+    t_safe_mem_swap phase_data[SPECTRUMDRAW2_NUM_CURVES];
+    t_safe_mem_swap mag_data[SPECTRUMDRAW2_NUM_CURVES];
 
-    t_safe_mem_swap realtime_io[SPECTRUMDRAW_NUM_CURVES];
-    t_safe_mem_swap realtime_data[SPECTRUMDRAW_NUM_CURVES];
-    t_safe_mem_swap realtime_stats[SPECTRUMDRAW_NUM_CURVES];
+    t_safe_mem_swap realtime_io[SPECTRUMDRAW2_NUM_CURVES];
+    t_safe_mem_swap realtime_data[SPECTRUMDRAW2_NUM_CURVES];
+    t_safe_mem_swap realtime_stats[SPECTRUMDRAW2_NUM_CURVES];
 
-    long curve_mode[SPECTRUMDRAW_NUM_CURVES];
-    long curve_chan[SPECTRUMDRAW_NUM_CURVES];
-    long curve_freeze[SPECTRUMDRAW_NUM_CURVES];
+    long curve_mode[SPECTRUMDRAW2_NUM_CURVES];
+    long curve_chan[SPECTRUMDRAW2_NUM_CURVES];
+    long curve_freeze[SPECTRUMDRAW2_NUM_CURVES];
 
-    double curve_sr[SPECTRUMDRAW_NUM_CURVES];
-    double curve_thickness[SPECTRUMDRAW_NUM_CURVES];
+    double curve_sr[SPECTRUMDRAW2_NUM_CURVES];
+    double curve_thickness[SPECTRUMDRAW2_NUM_CURVES];
+
+    /*t_atom* phase_specifier;
+    t_atom* magnitude_specifier;
+
+    long num_magnitude_specifiers[SPECTRUMDRAW2_NUM_CURVES];
+    long num_phase_specifiers[SPECTRUMDRAW2_NUM_CURVES];*/
 
     // Realtime Params
 
@@ -257,60 +265,69 @@ t_jrgba no_transparency;
 
 // Function prototypes
 
-void *spectrumdraw_new(t_symbol *s, short argc, t_atom *argv);
-void spectrumdraw_free(t_spectrumdraw *x);
-void spectrumdraw_assist(t_spectrumdraw *x, void *b, long m, long a, char *s);
+void *spectrumdraw2_new(t_symbol *s, short argc, t_atom *argv);
+void spectrumdraw2_free(t_spectrumdraw2 *x);
+void spectrumdraw2_assist(t_spectrumdraw2 *x, void *b, long m, long a, char *s);
 
 void free_fft_setup(void *setup);
 void *alloc_fft_setup(uintptr_t size, uintptr_t nom_size);
 void free_fft_stats(void *frame_stats);
 void *alloc_realtime_data(uintptr_t size, uintptr_t nom_size);
 void *alloc_fft_stats(uintptr_t size, uintptr_t nom_size);
-void check_realtime_io(t_spectrumdraw *x, uintptr_t fft_size);
+void check_realtime_io(t_spectrumdraw2 *x, uintptr_t fft_size);
 
-void spectrumdraw_octave_smooth(double *in, float *out, intptr_t size, double oct_width);
+void spectrumdraw2_octave_smooth(double *in, float *out, intptr_t size, double oct_width);
 
-void spectrumdraw_calc_selection_data(t_spectrumdraw *x);
+void spectrumdraw2_calc_selection_data(t_spectrumdraw2 *x);
 
-void spectrumdraw_freeze(t_spectrumdraw *x, t_atom_long freeze_chan);
-void spectrumdraw_select(t_spectrumdraw *x, t_symbol *sym, long argc, t_atom *argv);
+void spectrumdraw2_freeze(t_spectrumdraw2 *x, t_atom_long freeze_chan);
+void spectrumdraw2_select(t_spectrumdraw2 *x, t_symbol *sym, long argc, t_atom *argv);
 
-double spectrumdraw_mouse_x_2_freq(t_spectrumdraw *x, t_object *patcherview, double x_pt);
-void spectrumdraw_mouse_store_rel(t_spectrumdraw *x, t_object *patcherview, double x_pt, double y_pt);
-void spectrumdraw_mousedown(t_spectrumdraw *x, t_object *patcherview, t_pt pt, long modifiers);
-void spectrumdraw_mousedrag(t_spectrumdraw *x, t_object *patcherview, t_pt pt, long modifiers);
-void spectrumdraw_mouseup(t_spectrumdraw *x, t_object *patcherview, t_pt pt, long modifiers);
-void spectrumdraw_mouseenter(t_spectrumdraw *x, t_object *patcherview, t_pt pt, long modifiers);
-void spectrumdraw_mouseleave(t_spectrumdraw *x, t_object *patcherview, t_pt pt, long modifiers);
-void spectrumdraw_mousemove(t_spectrumdraw *x, t_object *patcherview, t_pt pt, long modifiers);
+double spectrumdraw2_mouse_x_2_freq(t_spectrumdraw2 *x, t_object *patcherview, double x_pt);
+void spectrumdraw2_mouse_store_rel(t_spectrumdraw2 *x, t_object *patcherview, double x_pt, double y_pt);
+void spectrumdraw2_mousedown(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt, long modifiers);
+void spectrumdraw2_mousedrag(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt, long modifiers);
+void spectrumdraw2_mouseup(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt, long modifiers);
+void spectrumdraw2_mouseenter(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt, long modifiers);
+void spectrumdraw2_mouseleave(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt, long modifiers);
+void spectrumdraw2_mousemove(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt, long modifiers);
 
-void spectrumdraw_buffer(t_spectrumdraw *x, t_symbol *sym, long argc, t_atom *argv);
-void spectrumdraw_generate_window(t_spectrumdraw *x, uintptr_t window_size, uintptr_t fft_size);
-void spectrumdraw_realtime(t_spectrumdraw *x, float *read_from, long phase_mode, long N);
+/*t_max_err phase_specification_setter(OBJ_CLASSNAME* x, t_object* attr, long argc, t_atom* argv);
+t_max_err phase_specification_getter(OBJ_CLASSNAME* x, t_object* attr, long* argc, t_atom** argv);
 
-void spectrumdraw_perform64(t_spectrumdraw *x, t_object *dsp64, double **ins, long numins, double **outs, long numouts, long vec_size, long flags, void *userparam);
+t_max_err magnitude_specification_setter(OBJ_CLASSNAME* x, t_object* attr, long argc, t_atom* argv);
+t_max_err magnitude_specification_getter(OBJ_CLASSNAME* x, t_object* attr, long* argc, t_atom** argv);
+*/
+void spectrumdraw2_phase_wrap(float* ph);
+void spectrumdraw2_datalist(t_spectrumdraw2* x, t_symbol* sym, long argc, t_atom* argv);
+void spectrumdraw2_datalist_internal(t_spectrumdraw2* x, t_atom_long display, double sample_rate, uintptr_t fft_size, uintptr_t fft_size_log2, bool has_mag, bool has_phase, long argc, t_atom* argv, FFT_SPLIT_COMPLEX_D spectrum, float* amp_vals, float* phase_vals);
+void spectrumdraw2_buffer(t_spectrumdraw2 *x, t_symbol *sym, long argc, t_atom *argv);
+void spectrumdraw2_generate_window(t_spectrumdraw2 *x, uintptr_t window_size, uintptr_t fft_size);
+void spectrumdraw2_realtime(t_spectrumdraw2 *x, float *read_from, long phase_mode, long N);
 
-void spectrumdraw_dsp64(t_spectrumdraw *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags);
+void spectrumdraw2_perform64(t_spectrumdraw2 *x, t_object *dsp64, double **ins, long numins, double **outs, long numouts, long vec_size, long flags, void *userparam);
+
+void spectrumdraw2_dsp64(t_spectrumdraw2 *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags);
 
 long gcd(long a, long b);
 void phase_label(char *text, long n, long d);
 void amp_label(char *text, double amp, long amp_grid, int base_precision);
 void frequency_label(char *text, double freq);
 
-void spectrumdraw_jgraphics_paint_boxes(t_spectrumdraw *x, t_jgraphics *g, double width, double height, double sel_min_freq, double sel_max_freq, t_scale_vals *scale);
-void spectrumdraw_jgraphics_paint_grid(t_spectrumdraw *x, t_jgraphics *g, double width, double height, t_scale_vals *scale);
-void spectrumdraw_jgraphics_paint_ticks(t_spectrumdraw *x, t_jgraphics *g, double width, double height, t_scale_vals *scale);
-void spectrumdraw_jgraphics_paint_markers(t_spectrumdraw *x, t_jgraphics *g, double width, double height, t_scale_vals *scale);
-void spectrumdraw_jgraphics_curve_vertex(t_jgraphics *g, double x, double y, t_curve_style style);
-void spectrumdraw_jgraphics_paint_curve_internal(t_spectrumdraw *x, t_jgraphics *g, uintptr_t from, uintptr_t to, float *y_vals, t_scale_vals *scale, double zoom_factor, double sub_sample_render, double width, double height, t_jrgba *color, t_curve_style curve_style, t_subsample_style sub_sample_style);
-void spectrumdraw_jgraphics_paint_curve(t_spectrumdraw *x, t_jgraphics *g, uintptr_t from, uintptr_t to, float *y_vals, t_scale_vals *scale, double zoom_factor, double sub_sample_render, double width, double height, t_jrgba *color);
-void spectrumdraw_jgraphics_paint(t_spectrumdraw *x, t_object *patcherview, t_scale_vals *scale, double zoom_factor, double sub_sample_render, t_rect rect, double sel_min_freq, double sel_max_freq);
-void spectrumdraw_paint_labels(t_spectrumdraw *x, t_jgraphics *g, t_scale_vals *scale, double x_offset, double y_offset, double width, double height, double label_width, double label_height, double max_text_width, double max_text_height);
-void spectrumdraw_get_measurements(t_spectrumdraw *x, double *return_width, double *return_height, t_rect *rect);
-void spectrumdraw_paint_selection_data(t_spectrumdraw *x, t_jgraphics *g, float *y_vals, t_scale_vals *scale, uintptr_t fft_size, double x_offset, double y_offset, double width, double height, double sel_min_freq, double sel_max_freq);
-void spectrumdraw_paint(t_spectrumdraw *x, t_object *patcherview);
+void spectrumdraw2_jgraphics_paint_boxes(t_spectrumdraw2 *x, t_jgraphics *g, double width, double height, double sel_min_freq, double sel_max_freq, t_scale_vals *scale);
+void spectrumdraw2_jgraphics_paint_grid(t_spectrumdraw2 *x, t_jgraphics *g, double width, double height, t_scale_vals *scale);
+void spectrumdraw2_jgraphics_paint_ticks(t_spectrumdraw2 *x, t_jgraphics *g, double width, double height, t_scale_vals *scale);
+void spectrumdraw2_jgraphics_paint_markers(t_spectrumdraw2 *x, t_jgraphics *g, double width, double height, t_scale_vals *scale);
+void spectrumdraw2_jgraphics_curve_vertex(t_jgraphics *g, double x, double y, t_curve_style style);
+void spectrumdraw2_jgraphics_paint_curve_internal(t_spectrumdraw2 *x, t_jgraphics *g, uintptr_t from, uintptr_t to, float *y_vals, t_scale_vals *scale, double zoom_factor, double sub_sample_render, double width, double height, t_jrgba *color, t_curve_style curve_style, t_subsample_style sub_sample_style);
+void spectrumdraw2_jgraphics_paint_curve(t_spectrumdraw2 *x, t_jgraphics *g, uintptr_t from, uintptr_t to, float *y_vals, t_scale_vals *scale, double zoom_factor, double sub_sample_render, double width, double height, t_jrgba *color);
+void spectrumdraw2_jgraphics_paint(t_spectrumdraw2 *x, t_object *patcherview, t_scale_vals *scale, double zoom_factor, double sub_sample_render, t_rect rect, double sel_min_freq, double sel_max_freq);
+void spectrumdraw2_paint_labels(t_spectrumdraw2 *x, t_jgraphics *g, t_scale_vals *scale, double x_offset, double y_offset, double width, double height, double label_width, double label_height, double max_text_width, double max_text_height);
+void spectrumdraw2_get_measurements(t_spectrumdraw2 *x, double *return_width, double *return_height, t_rect *rect);
+void spectrumdraw2_paint_selection_data(t_spectrumdraw2 *x, t_jgraphics *g, float *y_vals, t_scale_vals *scale, uintptr_t fft_size, double x_offset, double y_offset, double width, double height, double sel_min_freq, double sel_max_freq);
+void spectrumdraw2_paint(t_spectrumdraw2 *x, t_object *patcherview);
 
-t_max_err spectrumdraw_notify(t_spectrumdraw *x, t_symbol *sym, t_symbol *msg, void *sender, void *data);
+t_max_err spectrumdraw2_notify(t_spectrumdraw2 *x, t_symbol *sym, t_symbol *msg, void *sender, void *data);
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -318,14 +335,14 @@ t_max_err spectrumdraw_notify(t_spectrumdraw *x, t_symbol *sym, t_symbol *msg, v
 //////////////////////////////////////////////////////////////////////////
 
 
-uintptr_t spectrumdraw_realtime_fft_size(t_spectrumdraw *x)
+uintptr_t spectrumdraw2_realtime_fft_size(t_spectrumdraw2 *x)
 {
-    return static_cast<uintptr_t>(uintptr_t(1) << (x->fft_select + 8));
+    return (uintptr_t)static_cast<uintptr_t>(uintptr_t(1) << (x->fft_select + 8));
 }
 
-uintptr_t spectrumdraw_realtime_window_size(t_spectrumdraw *x)
+uintptr_t spectrumdraw2_realtime_window_size(t_spectrumdraw2 *x)
 {
-    return spectrumdraw_realtime_fft_size(x) / static_cast<uintptr_t>(uintptr_t(1) << (x->zero_pad));
+    return spectrumdraw2_realtime_fft_size(x) / static_cast<uintptr_t>(uintptr_t(1) << (x->zero_pad));
 }
       
 t_jgraphics_text_justification combine_flags(t_jgraphics_text_justification a, t_jgraphics_text_justification b)
@@ -441,7 +458,7 @@ static inline double mouse_2_yval(double y_val, t_scale_vals *scale)
 //////////////////////////////////////////////////////////////////////////
 
 
-static inline void spectrumdraw_grid_precalc(t_spectrumdraw *x, t_scale_vals *scale, bool labels)
+static inline void spectrumdraw2_grid_precalc(t_spectrumdraw2 *x, t_scale_vals *scale, bool labels)
 {
     double freq_ref = x->freq_ref;
     double end_ref;
@@ -475,7 +492,7 @@ static inline void spectrumdraw_grid_precalc(t_spectrumdraw *x, t_scale_vals *sc
 }
 
 
-static inline void spectrumdraw_set_scale_vals(t_scale_vals *scale, t_rect *rect, double min_freq, double max_freq, double y_min, double y_max, long log_mode, long pow_mode)
+static inline void spectrumdraw2_set_scale_vals(t_scale_vals *scale, t_rect *rect, double min_freq, double max_freq, double y_min, double y_max, long log_mode, long pow_mode)
 {
     double x_min = min_freq;
     double x_max = max_freq;
@@ -510,7 +527,7 @@ static inline void spectrumdraw_set_scale_vals(t_scale_vals *scale, t_rect *rect
 
 // Must be called after setting the basic scaling parameters
 
-static inline void spectrumdraw_set_fft_scaling(t_scale_vals *scale, uintptr_t fft_size, double sample_rate, double zoom)
+static inline void spectrumdraw2_set_fft_scaling(t_scale_vals *scale, uintptr_t fft_size, double sample_rate, double zoom)
 {
     double x_min = scale->min_freq * fft_size / sample_rate;
     double x_max =  scale->max_freq * fft_size / sample_rate;
@@ -537,79 +554,89 @@ static inline void spectrumdraw_set_fft_scaling(t_scale_vals *scale, uintptr_t f
 
 int C74_EXPORT main()
 {
+    //post("MAIN\n");
     t_class *c;
     short i;
 
     char chan_options[64];
     char temp_str[64];
 
-    c = class_new("spectrumdraw~", (method)spectrumdraw_new, (method)spectrumdraw_free, sizeof(t_spectrumdraw), 0L, A_GIMME, 0);
+    c = class_new("spectrumdraw2~", (method)spectrumdraw2_new, (method)spectrumdraw2_free, sizeof(t_spectrumdraw2), 0L, A_GIMME, 0);
 
     c->c_flags |= CLASS_FLAG_NEWDICTIONARY;
     jbox_initclass(c, JBOX_FIXWIDTH | JBOX_COLOR | JBOX_FONTATTR);
 
-    class_addmethod(c, (method)spectrumdraw_notify, "notify", A_CANT, 0);
-    class_addmethod(c, (method)spectrumdraw_paint, "paint", A_CANT, 0);
+    class_addmethod(c, (method)spectrumdraw2_notify, "notify", A_CANT, 0);
+    class_addmethod(c, (method)spectrumdraw2_paint, "paint", A_CANT, 0);
 
-    class_addmethod(c, (method)spectrumdraw_mousedown, "mousedown", A_CANT, 0);
-    class_addmethod(c, (method)spectrumdraw_mousedrag, "mousedrag", A_CANT, 0);
-    class_addmethod(c, (method)spectrumdraw_mouseup, "mouseup", A_CANT, 0);
-    class_addmethod(c, (method)spectrumdraw_mouseenter, "mouseenter", A_CANT, 0);
-    class_addmethod(c, (method)spectrumdraw_mouseleave, "mouseleave", A_CANT, 0);
-    class_addmethod(c, (method)spectrumdraw_mousemove, "mousemove", A_CANT, 0);
+    class_addmethod(c, (method)spectrumdraw2_mousedown, "mousedown", A_CANT, 0);
+    class_addmethod(c, (method)spectrumdraw2_mousedrag, "mousedrag", A_CANT, 0);
+    class_addmethod(c, (method)spectrumdraw2_mouseup, "mouseup", A_CANT, 0);
+    class_addmethod(c, (method)spectrumdraw2_mouseenter, "mouseenter", A_CANT, 0);
+    class_addmethod(c, (method)spectrumdraw2_mouseleave, "mouseleave", A_CANT, 0);
+    class_addmethod(c, (method)spectrumdraw2_mousemove, "mousemove", A_CANT, 0);
 
-    class_addmethod(c, (method)spectrumdraw_select, "select", A_GIMME, 0);
+    class_addmethod(c, (method)spectrumdraw2_select, "select", A_GIMME, 0);
 
-    class_addmethod(c, (method)spectrumdraw_dsp64, "dsp64", A_CANT, 0L);
-    class_addmethod(c, (method)spectrumdraw_assist, "assist", A_CANT, 0);
+    class_addmethod(c, (method)spectrumdraw2_dsp64, "dsp64", A_CANT, 0L);
+    class_addmethod(c, (method)spectrumdraw2_assist, "assist", A_CANT, 0);
 
     // Messages for state setting / retrieval
 
-    class_addmethod(c, (method)spectrumdraw_freeze, "freeze", A_LONG, 0);
-    class_addmethod(c, (method)spectrumdraw_buffer, "set", A_GIMME, 0);
+    class_addmethod(c, (method)spectrumdraw2_freeze, "freeze", A_LONG, 0);
+    class_addmethod(c, (method)spectrumdraw2_buffer, "set", A_GIMME, 0);
+    class_addmethod(c, (method)spectrumdraw2_datalist, "data", A_GIMME, 0);
 
     // Attributes
+    /*
+    CLASS_ATTR_ATOM_VARSIZE(this_class, "mag_data", 0, OBJ_CLASSNAME, magnitude_specifier, num_magnitude_specifiers, HIRT_MAX_SPECIFIER_ITEMS);
+    CLASS_ATTR_ACCESSORS(this_class, "mag_data", (method)magnitude_specification_getter, (method)magnitude_specification_setter);
+    CLASS_ATTR_LABEL(this_class, "mag_data", 0, "Magnitude Response Data");
 
+    CLASS_ATTR_ATOM_VARSIZE(this_class, "phase_data", 0, OBJ_CLASSNAME, phase_specifier, num_phase_specifiers, HIRT_MAX_SPECIFIER_ITEMS);
+    CLASS_ATTR_ACCESSORS(this_class, "phase_data", (method)ohase_specification_getter, (method)phase_specification_setter);
+    CLASS_ATTR_LABEL(this_class, "phase_data", 0, "Phase Response Data");
+    */
     /////////////////// Color Attributes ///////////////////
 
     CLASS_STICKY_ATTR(c, "category", 0, "Color");
 
-    CLASS_ATTR_RGBA(c, "bgcolor", 0, t_spectrumdraw, u_background);
+    CLASS_ATTR_RGBA(c, "bgcolor", 0, t_spectrumdraw2, u_background);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "bgcolor", 0, "1. 1. 1. 1.");
     CLASS_ATTR_STYLE_LABEL(c,"bgcolor", 0, "rgba","Background Color");
 
-    CLASS_ATTR_RGBA(c, "bordercolor", 0, t_spectrumdraw, u_outline);
+    CLASS_ATTR_RGBA(c, "bordercolor", 0, t_spectrumdraw2, u_outline);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "bordercolor", 0, "0. 0. 0. 1.");
     CLASS_ATTR_STYLE_LABEL(c,"bordercolor", 0, "rgba","Border Color");
 
-    CLASS_ATTR_RGBA(c, "indicatorcolor", 0, t_spectrumdraw, u_indicator);
+    CLASS_ATTR_RGBA(c, "indicatorcolor", 0, t_spectrumdraw2, u_indicator);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "indicatorcolor", 0, "1. 0. 0. 1.");
     CLASS_ATTR_STYLE_LABEL(c,"indicatorcolor", 0, "rgba","Indicator Color");
 
-    CLASS_ATTR_RGBA(c, "selectcolor", 0, t_spectrumdraw, u_select);
+    CLASS_ATTR_RGBA(c, "selectcolor", 0, t_spectrumdraw2, u_select);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "selectcolor", 0, "0.4 0.4 0.4 0.4");
     CLASS_ATTR_STYLE_LABEL(c,"selectcolor", 0, "rgba","Selection Color");
 
-    CLASS_ATTR_RGBA(c, "markercolor", 0, t_spectrumdraw, u_marker);
+    CLASS_ATTR_RGBA(c, "markercolor", 0, t_spectrumdraw2, u_marker);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "markercolor", 0, "1. 0. 0. 1.");
     CLASS_ATTR_STYLE_LABEL(c,"markercolor", 0, "rgba","Marker Color");
 
-    CLASS_ATTR_RGBA(c, "tickcolor", 0, t_spectrumdraw, u_tick);
+    CLASS_ATTR_RGBA(c, "tickcolor", 0, t_spectrumdraw2, u_tick);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "tickcolor", 0, "1. 1. 1. 1.");
     CLASS_ATTR_STYLE_LABEL(c,"tickcolor", 0, "rgba","Tick Color");
 
-    CLASS_ATTR_RGBA(c, "gridcolor", 0, t_spectrumdraw, u_grid);
+    CLASS_ATTR_RGBA(c, "gridcolor", 0, t_spectrumdraw2, u_grid);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "gridcolor", 0, "0.4 0.4 0.4 1.");
     CLASS_ATTR_STYLE_LABEL(c,"gridcolor", 0, "rgba","Grid Color");
 
-    CLASS_ATTR_RGBA(c, "textboxcolor", 0, t_spectrumdraw, u_textbox);
+    CLASS_ATTR_RGBA(c, "textboxcolor", 0, t_spectrumdraw2, u_textbox);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "textboxcolor", 0, "1. 1. 1. 0.9");
     CLASS_ATTR_STYLE_LABEL(c,"textboxcolor", 0, "rgba","Text Box Color");
 
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "color", 0, "0.5 0. 0. 1.");
     CLASS_ATTR_STYLE_LABEL(c,"color", 0, "rgba","Curve Color");
 
-    for (i = 1; i < SPECTRUMDRAW_NUM_CURVES; i++)
+    for (i = 1; i < SPECTRUMDRAW2_NUM_CURVES; i++)
     {
         char attrib_name[32];
         char display_name[32];
@@ -617,18 +644,18 @@ int C74_EXPORT main()
         sprintf(display_name, "Curve Color %d", i + 1);
         sprintf(temp_str, "%lf %lf %lf 1.", (i == 3) ? 0.5 : 0.0, (i == 1) || (i == 3) ? 0.5 : 0.0, i == 2 ? 0.5 : 0.0);
 
-        CLASS_ATTR_RGBA(c, attrib_name, 0, t_spectrumdraw, curve_colors[i]);
+        CLASS_ATTR_RGBA(c, attrib_name, 0, t_spectrumdraw2, curve_colors[i]);
         CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, attrib_name, 0, temp_str);
         CLASS_ATTR_STYLE_LABEL(c, attrib_name, 0, "rgba", display_name);
     }
 
     // Do text color
 
-    CLASS_ATTR_RGBA(c, "textcolor", 0, t_spectrumdraw, u_textcolor);
+    CLASS_ATTR_RGBA(c, "textcolor", 0, t_spectrumdraw2, u_textcolor);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "textcolor", 0, "0. 0. 0. 1.");
     CLASS_ATTR_STYLE_LABEL(c,"textcolor", 0, "rgba","Label Text Color");
 
-    CLASS_ATTR_RGBA(c, "displaytextcolor", 0, t_spectrumdraw, u_displaytextcolor);
+    CLASS_ATTR_RGBA(c, "displaytextcolor", 0, t_spectrumdraw2, u_displaytextcolor);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "displaytextcolor", 0, "0. 0. 0. 1.");
     CLASS_ATTR_STYLE_LABEL(c,"displaytextcolor", 0, "rgba","Display Text Color");
 
@@ -640,7 +667,7 @@ int C74_EXPORT main()
 
     // Mode Attributes
 
-    for (i = 0; i < SPECTRUMDRAW_NUM_CURVES; i++)
+    for (i = 0; i < SPECTRUMDRAW2_NUM_CURVES; i++)
     {
         char attrib_name[32];
         char display_name[32];
@@ -656,7 +683,7 @@ int C74_EXPORT main()
             sprintf(display_name, "Mode %d", i + 1);
         }
 
-        CLASS_ATTR_LONG(c, attrib_name, 0, t_spectrumdraw, curve_mode[i]);
+        CLASS_ATTR_LONG(c, attrib_name, 0, t_spectrumdraw2, curve_mode[i]);
         CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, attrib_name, 0, "1");
         CLASS_ATTR_ENUMINDEX(c, attrib_name, 0, "Off Normal Peak Smooth Accumulate");
         CLASS_ATTR_FILTER_CLIP(c, attrib_name, 0, 4);
@@ -667,13 +694,13 @@ int C74_EXPORT main()
 
     // Chan Attributes
 
-    for (i = 1; i < SPECTRUMDRAW_NUM_CURVES; i++)
+    for (i = 1; i < SPECTRUMDRAW2_NUM_CURVES; i++)
     {
         strcpy(temp_str, chan_options);
         sprintf(chan_options, "%s %d", temp_str, i + 1);
     }
 
-    for (i = 0; i < SPECTRUMDRAW_NUM_CURVES; i++)
+    for (i = 0; i < SPECTRUMDRAW2_NUM_CURVES; i++)
     {
         char attrib_name[32];
         char display_name[32];
@@ -691,15 +718,15 @@ int C74_EXPORT main()
 
         sprintf(temp_str, "%d", i + 1);
 
-        CLASS_ATTR_LONG(c, attrib_name, 0, t_spectrumdraw, curve_chan[i]);
+        CLASS_ATTR_LONG(c, attrib_name, 0, t_spectrumdraw2, curve_chan[i]);
         CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, attrib_name, 0, temp_str);
-        CLASS_ATTR_FILTER_CLIP(c, attrib_name, 1, SPECTRUMDRAW_NUM_CURVES);
+        CLASS_ATTR_FILTER_CLIP(c, attrib_name, 1, SPECTRUMDRAW2_NUM_CURVES);
         CLASS_ATTR_LABEL(c,attrib_name,0,display_name);
     }
 
     // Thickness Attributes
 
-    for (i = 0; i < SPECTRUMDRAW_NUM_CURVES; i++)
+    for (i = 0; i < SPECTRUMDRAW2_NUM_CURVES; i++)
     {
         char attrib_name[32];
         char display_name[32];
@@ -715,7 +742,7 @@ int C74_EXPORT main()
             sprintf(display_name, "Curve Thickness %d", i + 1);
         }
 
-        CLASS_ATTR_DOUBLE(c, attrib_name, 0, t_spectrumdraw, curve_thickness[i]);
+        CLASS_ATTR_DOUBLE(c, attrib_name, 0, t_spectrumdraw2, curve_thickness[i]);
         CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, attrib_name, 0, "1.");
         CLASS_ATTR_FILTER_CLIP(c, attrib_name, 1.0, 4.0);
         CLASS_ATTR_LABEL(c,attrib_name, 0, display_name);
@@ -731,64 +758,64 @@ int C74_EXPORT main()
 
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "readchan", 0, "1");
 
-    CLASS_ATTR_LONG(c, "phasemode", 0, t_spectrumdraw, phase_mode);
+    CLASS_ATTR_LONG(c, "phasemode", 0, t_spectrumdraw2, phase_mode);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "phasemode", 0, "0");
     CLASS_ATTR_STYLE_LABEL(c,"phasemode", 0, "onoff","Phase Mode");
 
-    CLASS_ATTR_LONG(c, "linearmode", 0, t_spectrumdraw, linear_mode);
+    CLASS_ATTR_LONG(c, "linearmode", 0, t_spectrumdraw2, linear_mode);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "linearmode", 0, "0");
     CLASS_ATTR_STYLE_LABEL(c,"linearmode", 0, "onoff","Linear Mode");
 
-    CLASS_ATTR_LONG(c, "mousemode", 0, t_spectrumdraw, mouse_mode);
+    CLASS_ATTR_LONG(c, "mousemode", 0, t_spectrumdraw2, mouse_mode);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "mousemode", 0, "1");
     CLASS_ATTR_ENUMINDEX(c,"mousemode", 0, "None Mouse Curve \"Mouse + Selection\" \"Curve + Selection\"");
     CLASS_ATTR_FILTER_CLIP(c, "mousemode", 0, 4);
     CLASS_ATTR_LABEL(c,"mousemode", 0, "Mousing Mode");
 
-    CLASS_ATTR_LONG(c, "mousedatapos", 0, t_spectrumdraw, mouse_data_pos);
+    CLASS_ATTR_LONG(c, "mousedatapos", 0, t_spectrumdraw2, mouse_data_pos);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "mousedatapos", 0, "0");
     CLASS_ATTR_ENUMINDEX(c,"mousedatapos", 0, "\"Top Left\" \"Top Right\" \"Bottom Left\" \"Bottom Right\"");
     CLASS_ATTR_FILTER_CLIP(c, "mousedatapos", 0, 3);
     CLASS_ATTR_LABEL(c,"mousedatapos", 0, "Mouse Data Position");
 
-    CLASS_ATTR_LONG(c, "mousecurve", 0, t_spectrumdraw, mouse_curve);
+    CLASS_ATTR_LONG(c, "mousecurve", 0, t_spectrumdraw2, mouse_curve);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "mousecurve", 0, "1");
-    CLASS_ATTR_FILTER_CLIP(c, "mousecurve", 1, SPECTRUMDRAW_NUM_CURVES);
+    CLASS_ATTR_FILTER_CLIP(c, "mousecurve", 1, SPECTRUMDRAW2_NUM_CURVES);
     CLASS_ATTR_LABEL(c,"mousecurve",0 ,"Mouse Curve");
 
-    CLASS_ATTR_LONG(c, "freqstyle", 0, t_spectrumdraw, freq_display_options);
+    CLASS_ATTR_LONG(c, "freqstyle", 0, t_spectrumdraw2, freq_display_options);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "freqstyle", 0, "0");
     CLASS_ATTR_ENUMINDEX(c,"freqstyle", 0, "Freq Note \"Freq + Note\"");
     CLASS_ATTR_FILTER_CLIP(c, "freqstyle", 0, 2);
     CLASS_ATTR_LABEL(c,"freqstyle",0 , "Frequency Display Style");
 
-    CLASS_ATTR_LONG(c, "curvestyle", 0, t_spectrumdraw, curve_style);
+    CLASS_ATTR_LONG(c, "curvestyle", 0, t_spectrumdraw2, curve_style);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "curvestyle", 0, "0");
     CLASS_ATTR_ENUMINDEX(c,"curvestyle", 0, "Lines Dots Fill \"Line + Fill\"");
     CLASS_ATTR_FILTER_CLIP(c, "curvestyle", 0, 3);
     CLASS_ATTR_LABEL(c,"curvestyle",0, "Curve Style");
 
-    CLASS_ATTR_DOUBLE(c, "octavesmooth", 0, t_spectrumdraw, oct_smooth);
+    CLASS_ATTR_DOUBLE(c, "octavesmooth", 0, t_spectrumdraw2, oct_smooth);
     CLASS_ATTR_FILTER_CLIP(c, "octavesmooth", 0.0, 1.0);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "octavesmooth", 0, "0.");
     CLASS_ATTR_LABEL(c,"octavesmooth",0, "Octave Smoothing");
 
-    CLASS_ATTR_LONG(c, "subsamplestyle", 0, t_spectrumdraw, subsample_style);
+    CLASS_ATTR_LONG(c, "subsamplestyle", 0, t_spectrumdraw2, subsample_style);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "subsamplestyle", 0, "0");
     CLASS_ATTR_ENUMINDEX(c,"subsamplestyle", 0, "Full Peak Average");
     CLASS_ATTR_FILTER_CLIP(c, "subsamplestyle", 0, 2);
     CLASS_ATTR_LABEL(c,"subsamplestyle",0, "Subsample Style");
 
-    CLASS_ATTR_DOUBLE_ARRAY(c, "freqrange", 0, t_spectrumdraw, freq_range, 2);
+    CLASS_ATTR_DOUBLE_ARRAY(c, "freqrange", 0, t_spectrumdraw2, freq_range, 2);
     CLASS_ATTR_FILTER_MIN(c, "freqrange", 0.0001);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "freqrange", 0, "20. 22050.");
     CLASS_ATTR_LABEL(c, "freqrange", 0 , "Frequency Range (Hz)");
 
-    CLASS_ATTR_DOUBLE_ARRAY(c, "amprange", 0, t_spectrumdraw, amp_range, 2);
+    CLASS_ATTR_DOUBLE_ARRAY(c, "amprange", 0, t_spectrumdraw2, amp_range, 2);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "amprange", 0, "-80 20");
     CLASS_ATTR_LABEL(c, "amprange", 0 , "Amplitude Range (dB)");
 
-    CLASS_ATTR_DOUBLE_VARSIZE(c, "markers", 0, t_spectrumdraw, markers, num_markers, 32);
+    CLASS_ATTR_DOUBLE_VARSIZE(c, "markers", 0, t_spectrumdraw2, markers, num_markers, 32);
     CLASS_ATTR_FILTER_MIN(c, "markers", 1.0);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "markers", 0, "");
     CLASS_ATTR_LABEL(c, "markers", 0 , "Markers (Hz)");
@@ -799,58 +826,58 @@ int C74_EXPORT main()
 
     CLASS_STICKY_ATTR(c, "category", 0, "Grid/Labels");
 
-    CLASS_ATTR_LONG(c, "gridstyle", 0, t_spectrumdraw, grid_style);
+    CLASS_ATTR_LONG(c, "gridstyle", 0, t_spectrumdraw2, grid_style);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "gridstyle", 0, "0");
     CLASS_ATTR_ENUMINDEX(c,"gridstyle", 0, "Normal Plaid Ticks \"Plaid + Ticks\"");
     CLASS_ATTR_FILTER_CLIP(c, "gridstyle", 0, 3);
     CLASS_ATTR_LABEL(c,"gridstyle", 0, "Grid Style");
 
-    CLASS_ATTR_LONG(c, "freqgrid", 0, t_spectrumdraw, freq_grid);
+    CLASS_ATTR_LONG(c, "freqgrid", 0, t_spectrumdraw2, freq_grid);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "freqgrid", 0, "7");
     CLASS_ATTR_ENUMINDEX(c,"freqgrid", 0, "Off 1/32 1/24 1/16 1/12 1/8 1/4 1/3 1/2 1 1.5 2 3 4");
     CLASS_ATTR_FILTER_CLIP(c, "freqgrid", 0, 13);
     CLASS_ATTR_LABEL(c,"freqgrid", 0, "Freq Grid (octaves)");
 
-    CLASS_ATTR_LONG(c, "ampgrid", 0, t_spectrumdraw, amp_grid);
+    CLASS_ATTR_LONG(c, "ampgrid", 0, t_spectrumdraw2, amp_grid);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "ampgrid", 0, "6");
     CLASS_ATTR_ENUMINDEX(c,"ampgrid", 0, "Off 0.25 0.5 1 2.5 5 10 15 20 25 50");
     CLASS_ATTR_FILTER_CLIP(c, "ampgrid", 0, 10);
     CLASS_ATTR_LABEL(c,"ampgrid", 0, "Amp Grid (dB)");
 
-    CLASS_ATTR_LONG(c, "phasegrid", 0, t_spectrumdraw, phase_grid);
+    CLASS_ATTR_LONG(c, "phasegrid", 0, t_spectrumdraw2, phase_grid);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "phasegrid", 0, "4");
     CLASS_ATTR_ENUMINDEX(c,"phasegrid", 0, "Off π/12 π/8 π/6 π/4 π/3 π/2 π");
     CLASS_ATTR_FILTER_CLIP(c, "phasegrid", 0, 7);
     CLASS_ATTR_LABEL(c,"phasegrid", 0, "Phase Grid");
 
-    CLASS_ATTR_DOUBLE(c, "freqref", 0, t_spectrumdraw, freq_ref);
+    CLASS_ATTR_DOUBLE(c, "freqref", 0, t_spectrumdraw2, freq_ref);
     CLASS_ATTR_FILTER_MIN(c, "freqref", 1.0);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "freqref", 0, "1000");
     CLASS_ATTR_LABEL(c,"freqref", 0, "Freq Reference (Hz)");
 
-    CLASS_ATTR_DOUBLE(c, "ampref", 0, t_spectrumdraw, amp_ref);
+    CLASS_ATTR_DOUBLE(c, "ampref", 0, t_spectrumdraw2, amp_ref);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "ampref", 0, "0");
     CLASS_ATTR_LABEL(c,"ampref", 0, "Amp Reference (dB)");
 
-    CLASS_ATTR_LONG(c, "freqlabels", 0, t_spectrumdraw, freq_labels);
+    CLASS_ATTR_LONG(c, "freqlabels", 0, t_spectrumdraw2, freq_labels);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "freqlabels", 0, "3");
     CLASS_ATTR_ENUMINDEX(c,"freqlabels", 0, "Off 1 2 3 4 6 8 9 12");
     CLASS_ATTR_FILTER_CLIP(c, "freqlabels", 0, 8);
     CLASS_ATTR_LABEL(c,"freqlabels", 0, "Freq Labels (grid points)");
 
-    CLASS_ATTR_LONG(c, "amplabels", 0, t_spectrumdraw, amp_labels);
+    CLASS_ATTR_LONG(c, "amplabels", 0, t_spectrumdraw2, amp_labels);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "amplabels", 0, "1");
     CLASS_ATTR_ENUMINDEX(c,"amplabels", 0, "Off 1 2 3 4 5 6 7 8 9 10");
     CLASS_ATTR_FILTER_CLIP(c, "amplabels", 0, 10);
     CLASS_ATTR_LABEL(c,"amplabels", 0, "Amp Labels (grid points)");
 
-    CLASS_ATTR_LONG(c, "phaselabels", 0, t_spectrumdraw, phase_labels);
+    CLASS_ATTR_LONG(c, "phaselabels", 0, t_spectrumdraw2, phase_labels);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "phaselabels", 0, "1");
     CLASS_ATTR_ENUMINDEX(c,"phaselabels", 0, "Off 1 2 3 4 5 6 7 8 9 10");
     CLASS_ATTR_FILTER_CLIP(c, "phaselabels", 0, 10);
     CLASS_ATTR_LABEL(c,"phaselabels", 0, "Phase Labels (grid points)");
 
-    CLASS_ATTR_LONG(c, "labelpos", 0, t_spectrumdraw, label_pos);
+    CLASS_ATTR_LONG(c, "labelpos", 0, t_spectrumdraw2, label_pos);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "labelpos", 0, "0");
     CLASS_ATTR_ENUMINDEX(c,"labelpos", 0, "\"Top Left\" \"Top Right\" \"Bottom Left\" \"Bottom Right\"");
     CLASS_ATTR_FILTER_CLIP(c, "labelpos", 0, 3);
@@ -862,34 +889,34 @@ int C74_EXPORT main()
 
     CLASS_STICKY_ATTR(c, "category", 0, "Realtime");
 
-    CLASS_ATTR_LONG(c, "fftsize", 0, t_spectrumdraw, fft_select);
+    CLASS_ATTR_LONG(c, "fftsize", 0, t_spectrumdraw2, fft_select);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "fftsize", 0, "4");
     CLASS_ATTR_ENUMINDEX(c,"fftsize", 0, "256 512 1024 2048 4096 8192 16384 32768 65536");
     CLASS_ATTR_FILTER_CLIP(c, "fftsize", 0, 8);
     CLASS_ATTR_LABEL(c,"fftsize", 0, "FFT Size");
 
-    CLASS_ATTR_DOUBLE(c, "interval", 0, t_spectrumdraw, redraw_time);
+    CLASS_ATTR_DOUBLE(c, "interval", 0, t_spectrumdraw2, redraw_time);
     CLASS_ATTR_FILTER_MIN(c, "interval", 10);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "interval", 0, "50");
     CLASS_ATTR_LABEL(c,"interval", 0, "Polling Interval (ms)");
 
-    CLASS_ATTR_DOUBLE(c, "peakhold", 0, t_spectrumdraw, peak_hold);
+    CLASS_ATTR_DOUBLE(c, "peakhold", 0, t_spectrumdraw2, peak_hold);
     CLASS_ATTR_FILTER_MIN(c, "peakhold", 10);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "peakhold", 0, "3000");
     CLASS_ATTR_LABEL(c,"peakhold", 0, "Peak Hold Time (ms)");
 
-    CLASS_ATTR_DOUBLE_ARRAY(c, "timesmooth", 0, t_spectrumdraw, time_smooth, 2);
+    CLASS_ATTR_DOUBLE_ARRAY(c, "timesmooth", 0, t_spectrumdraw2, time_smooth, 2);
     CLASS_ATTR_FILTER_MIN(c, "timesmooth", 1.0);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "timesmooth", 0, "10. 3000.");
     CLASS_ATTR_LABEL(c, "timesmooth", 0 , "Time Smoothing Up / Down (ms)");
 
-    CLASS_ATTR_LONG(c, "windowtype", 0, t_spectrumdraw, window_type);
+    CLASS_ATTR_LONG(c, "windowtype", 0, t_spectrumdraw2, window_type);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "windowtype", 0, "0");
     CLASS_ATTR_ENUMINDEX(c,"windowtype", 0, "\"Hann\" Hamming Kaiser Triangle Blackman \"Blackman 62\" \"Blackman 70\" \"Blackman 74\" \"Blackman 92\" Blackman-Harris \"Flat Top\" Rectangle");
     CLASS_ATTR_FILTER_CLIP(c, "windowtype", 0, 11);
     CLASS_ATTR_LABEL(c,"windowtype", 0, "Window Type");
 
-    CLASS_ATTR_LONG(c, "zeropad", 0, t_spectrumdraw, zero_pad);
+    CLASS_ATTR_LONG(c, "zeropad", 0, t_spectrumdraw2, zero_pad);
     CLASS_ATTR_DEFAULTNAME_SAVE_PAINT(c, "zeropad", 0, "0");
     CLASS_ATTR_ENUMINDEX(c,"zeropad", 0, "Off 2x 4x 8x 16x");
     CLASS_ATTR_FILTER_CLIP(c, "zeropad", 0, 4);
@@ -908,11 +935,12 @@ int C74_EXPORT main()
     no_transparency.blue = 0.0;
     no_transparency.alpha = 1.0;
 
+    //post("Done with main.\n");
     return 0;
 }
 
 
-void *spectrumdraw_new(t_symbol *s, short argc, t_atom *argv)
+void *spectrumdraw2_new(t_symbol *s, short argc, t_atom *argv)
 {
     t_dictionary *d = nullptr;
     long boxflags;
@@ -920,17 +948,17 @@ void *spectrumdraw_new(t_symbol *s, short argc, t_atom *argv)
     if (!(d = object_dictionaryarg(argc,argv)))
         return nullptr;
 
-    t_spectrumdraw *x = reinterpret_cast<t_spectrumdraw *>(object_alloc(this_class));
+    t_spectrumdraw2 *x = reinterpret_cast<t_spectrumdraw2 *>(object_alloc(this_class));
     boxflags = 0 | JBOX_DRAWFIRSTIN | JBOX_NODRAWBOX | JBOX_DRAWINLAST | JBOX_TRANSPARENT | JBOX_GROWBOTH;
 
     jbox_new((t_jbox *)x, boxflags, argc, argv);
     x->p_obj.z_box.b_firstin = (t_object *) x;
 
-    dsp_setupjbox((t_pxjbox *)x, SPECTRUMDRAW_NUM_CURVES);
+    dsp_setupjbox((t_pxjbox *)x, SPECTRUMDRAW2_NUM_CURVES);
 
     init_HIRT_common_attributes(x);
 
-    for (short i = 0; i < SPECTRUMDRAW_NUM_CURVES; i++)
+    for (short i = 0; i < SPECTRUMDRAW2_NUM_CURVES; i++)
         x->sig_ins_valid[i] = false;
 
     // Init once per object memory
@@ -939,15 +967,46 @@ void *spectrumdraw_new(t_symbol *s, short argc, t_atom *argv)
     alloc_mem_swap(&x->realtime_setup, 0, 0);
 
     // Init per curve / channel memory
-
-    for (short i = 0; i < SPECTRUMDRAW_NUM_CURVES; i++)
+    //post("Init per-curve / -channel memory...\n");
+    for (short i = 0; i < SPECTRUMDRAW2_NUM_CURVES; i++)
     {
         alloc_mem_swap(x->realtime_data + i, 0, 0);
         alloc_mem_swap(x->realtime_stats + i, 0, 0);
         alloc_mem_swap(x->curve_data + i, 0, 0);
         alloc_mem_swap(x->curve_data + i, 0, 0);
+
+        alloc_mem_swap(x->phase_data + i, 0, 0);
+        alloc_mem_swap(x->phase_data + i, 0, 0);
+
+        alloc_mem_swap(x->mag_data + i, 0, 0);
+        alloc_mem_swap(x->mag_data + i, 0, 0);
+
         x->curve_freeze[i] = 0;
     }
+
+    /*// Allocate magnitude and phase response data
+    x->phase_response_specifier = (t_atom*)malloc(sizeof(t_atom) * HIRT_MAX_SPECIFIER_ITEMS);
+
+    if (!x->phase_response_specifier)
+    {
+        object_error((t_object*)x, "cannot allocate memory for phase response specifier");
+        object_free(x);
+        return 0;
+    }
+
+    x->magnitude_response_specifier = (t_atom*)malloc(sizeof(t_atom) * HIRT_MAX_SPECIFIER_ITEMS);
+
+    if (!x->magnitude_response_specifier)
+    {
+        object_error((t_object*)x, "cannot allocate memory for magnitude response specifier");
+        object_free(x);
+        return 0;
+    }*/
+
+
+    // Continuing with original initialization...
+
+    //impulse_specification_setter(x, 0, 0, 0);
 
     x->mouse_over = false;
     x->selection_on = false;
@@ -970,11 +1029,12 @@ void *spectrumdraw_new(t_symbol *s, short argc, t_atom *argv)
     attr_dictionary_process(x,d);
     jbox_ready((t_jbox *)x);
 
+    //post("Done with new.\n");
     return x;
 }
 
 
-void spectrumdraw_free(t_spectrumdraw *x)
+void spectrumdraw2_free(t_spectrumdraw2 *x)
 {
     dsp_freejbox((t_pxjbox *)x);
     jbox_free((t_jbox *)x);
@@ -986,19 +1046,21 @@ void spectrumdraw_free(t_spectrumdraw *x)
 
     // Once per curve / channel
 
-    for (short i = 0; i < SPECTRUMDRAW_NUM_CURVES; i++)
+    for (short i = 0; i < SPECTRUMDRAW2_NUM_CURVES; i++)
     {
         free_mem_swap(x->curve_data + i);
         free_mem_swap(x->realtime_io + i);
         free_mem_swap(x->realtime_data + i);
         free_mem_swap(x->realtime_stats + i);
+        free_mem_swap(x->phase_data + i);
+        free_mem_swap(x->mag_data + i);
     }
 
     free_HIRT_common_attributes(x);
 }
 
 
-void spectrumdraw_assist(t_spectrumdraw *x, void *b, long m, long a, char *s)
+void spectrumdraw2_assist(t_spectrumdraw2 *x, void *b, long m, long a, char *s)
 {
     if (m == ASSIST_OUTLET)
         sprintf(s, "Mousing Info");
@@ -1054,9 +1116,9 @@ void *alloc_fft_stats(uintptr_t size, uintptr_t nom_size)
 }
 
 
-void check_realtime_io(t_spectrumdraw *x, uintptr_t fft_size)
+void check_realtime_io(t_spectrumdraw2 *x, uintptr_t fft_size)
 {
-    for (short i = 0; i < SPECTRUMDRAW_NUM_CURVES; i++)
+    for (short i = 0; i < SPECTRUMDRAW2_NUM_CURVES; i++)
     {
         if (x->sig_ins_valid[i])
             schedule_equal_mem_swap_custom(&x->realtime_io[i], alloc_realtime_data, 0, fft_size * 2 * sizeof(float), fft_size);
@@ -1090,7 +1152,7 @@ void check_realtime_io(t_spectrumdraw *x, uintptr_t fft_size)
 //////////////////////////////////////////////////////////////////////////
 
 
-void spectrumdraw_octave_smooth(double *in, float *out, intptr_t size, double oct_width)
+void spectrumdraw2_octave_smooth(double *in, float *out, intptr_t size, double oct_width)
 {
     intptr_t lo;
     intptr_t hi;
@@ -1134,7 +1196,7 @@ void spectrumdraw_octave_smooth(double *in, float *out, intptr_t size, double oc
 //////////////////////////////////////////////////////////////////////////
 
 
-void spectrumdraw_calc_selection_data(t_spectrumdraw *x)
+void spectrumdraw2_calc_selection_data(t_spectrumdraw2 *x)
 {
     // Selection + Point Stuff
 
@@ -1298,18 +1360,18 @@ void spectrumdraw_calc_selection_data(t_spectrumdraw *x)
 //////////////////////////////////////////////////////////////////////////
 
 
-void spectrumdraw_freeze(t_spectrumdraw *x, t_atom_long freeze_chan)
+void spectrumdraw2_freeze(t_spectrumdraw2 *x, t_atom_long freeze_chan)
 {
-    freeze_chan = (freeze_chan > SPECTRUMDRAW_NUM_CURVES) ? SPECTRUMDRAW_NUM_CURVES : freeze_chan;
+    freeze_chan = (freeze_chan > SPECTRUMDRAW2_NUM_CURVES) ? SPECTRUMDRAW2_NUM_CURVES : freeze_chan;
     freeze_chan = (--freeze_chan < 0) ? 0 : freeze_chan;
 
     x->curve_freeze[freeze_chan] = 1;
 
-    check_realtime_io(x, spectrumdraw_realtime_fft_size(x));
+    check_realtime_io(x, spectrumdraw2_realtime_fft_size(x));
 }
 
 
-void spectrumdraw_select(t_spectrumdraw *x, t_symbol *sym, long argc, t_atom *argv)
+void spectrumdraw2_select(t_spectrumdraw2 *x, t_symbol *sym, long argc, t_atom *argv)
 {
     if (argc < 2)
         x->selection_on = false;
@@ -1320,7 +1382,7 @@ void spectrumdraw_select(t_spectrumdraw *x, t_symbol *sym, long argc, t_atom *ar
         x->mouse_sel_max_freq = atom_getfloat(argv++);
     }
 
-    spectrumdraw_calc_selection_data(x);
+    spectrumdraw2_calc_selection_data(x);
 
     jbox_invalidate_layer((t_object*)x, nullptr, gensym("background_layer"));
     jbox_redraw((t_jbox *)x);
@@ -1332,7 +1394,7 @@ void spectrumdraw_select(t_spectrumdraw *x, t_symbol *sym, long argc, t_atom *ar
 //////////////////////////////////////////////////////////////////////////
 
 
-double spectrumdraw_mouse_x_2_freq(t_spectrumdraw *x, t_object *patcherview, double x_pt)
+double spectrumdraw2_mouse_x_2_freq(t_spectrumdraw2 *x, t_object *patcherview, double x_pt)
 {
     double text_width, text_height;
     t_scale_vals scale;
@@ -1340,93 +1402,603 @@ double spectrumdraw_mouse_x_2_freq(t_spectrumdraw *x, t_object *patcherview, dou
 
     jbox_get_rect_for_view((t_object *) x, patcherview, &rect);
 
-    spectrumdraw_get_measurements(x, &text_width, &text_height, &rect);
+    spectrumdraw2_get_measurements(x, &text_width, &text_height, &rect);
 
     // Set all scale values, although we only need a subset of them
 
-    spectrumdraw_set_scale_vals(&scale, &rect, x->freq_range[0], x->freq_range[1], 0, 1, !x->linear_mode, !x->phase_mode);
+    spectrumdraw2_set_scale_vals(&scale, &rect, x->freq_range[0], x->freq_range[1], 0, 1, !x->linear_mode, !x->phase_mode);
     return mouse_2_freq(clip(x_pt - rect.x, 0, rect.width), &scale);
 }
 
 
-void spectrumdraw_mouse_store_rel(t_spectrumdraw *x, t_object *patcherview, double x_pt, double y_pt)
+void spectrumdraw2_mouse_store_rel(t_spectrumdraw2 *x, t_object *patcherview, double x_pt, double y_pt)
 {
     double text_width, text_height;
     t_rect rect;
 
     jbox_get_rect_for_view((t_object *) x, patcherview, &rect);
-    spectrumdraw_get_measurements(x, &text_width, &text_height, &rect);
+    spectrumdraw2_get_measurements(x, &text_width, &text_height, &rect);
 
     x->mouse_x = (x_pt - rect.x) / rect.width;
     x->mouse_y = (y_pt - rect.y) / rect.height;
 }
 
 
-void spectrumdraw_mousedown(t_spectrumdraw *x, t_object *patcherview, t_pt pt, long modifiers)
+void spectrumdraw2_mousedown(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt, long modifiers)
 {
     if (x->mouse_mode < 3)
         return;
 
     x->selection_on = false;
-    x->mouse_sel_min_freq = spectrumdraw_mouse_x_2_freq(x, patcherview, pt.x);
+    x->mouse_sel_min_freq = spectrumdraw2_mouse_x_2_freq(x, patcherview, pt.x);
 
     jbox_invalidate_layer((t_object*)x, nullptr, gensym("background_layer"));
     jbox_redraw((t_jbox *)x);
 }
 
 
-void spectrumdraw_mousedrag(t_spectrumdraw *x, t_object *patcherview, t_pt pt, long modifiers)
+void spectrumdraw2_mousedrag(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt, long modifiers)
 {
     if (x->mouse_mode < 3)
         return;
 
     x->selection_on = true;
-    x->mouse_sel_max_freq = spectrumdraw_mouse_x_2_freq(x, patcherview, pt.x);
+    x->mouse_sel_max_freq = spectrumdraw2_mouse_x_2_freq(x, patcherview, pt.x);
 
-    spectrumdraw_calc_selection_data(x);
+    spectrumdraw2_calc_selection_data(x);
 
     jbox_invalidate_layer((t_object*)x, nullptr, gensym("background_layer"));
     jbox_redraw((t_jbox *)x);
 }
 
 
-void spectrumdraw_mouseup(t_spectrumdraw *x, t_object *patcherview, t_pt pt, long modifiers)
+void spectrumdraw2_mouseup(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt, long modifiers)
 {
 }
 
 
-void spectrumdraw_mouseenter(t_spectrumdraw *x, t_object *patcherview, t_pt pt, long modifiers)
+void spectrumdraw2_mouseenter(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt, long modifiers)
 {
     x->mouse_over = true;
-    spectrumdraw_mouse_store_rel(x, patcherview, pt.x, pt.y);
+    spectrumdraw2_mouse_store_rel(x, patcherview, pt.x, pt.y);
 
-    spectrumdraw_calc_selection_data(x);
+    spectrumdraw2_calc_selection_data(x);
 
     jbox_redraw((t_jbox *)x);
 }
 
 
-void spectrumdraw_mouseleave(t_spectrumdraw *x, t_object *patcherview, t_pt pt, long modifiers)
+void spectrumdraw2_mouseleave(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt, long modifiers)
 {
     x->mouse_over = false;
     jbox_redraw((t_jbox *)x);
 }
 
 
-void spectrumdraw_mousemove(t_spectrumdraw *x, t_object *patcherview, t_pt pt, long modifiers)
+void spectrumdraw2_mousemove(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt, long modifiers)
 {
-    spectrumdraw_mouse_store_rel(x, patcherview, pt.x, pt.y);
-    spectrumdraw_calc_selection_data(x);
+    spectrumdraw2_mouse_store_rel(x, patcherview, pt.x, pt.y);
+    spectrumdraw2_calc_selection_data(x);
     jbox_redraw((t_jbox *)x);
 }
 
+
+//////////////////////////////////////////////////////////////////////////
+////////////////////////// Magnitude/Phase Data //////////////////////////
+//////////////////////////////////////////////////////////////////////////
+
+
+// Syntax of input list: (phase in radians not Hz, magnitude in amplitude not dB)
+// MAGPHASE <freq0> <mag0> <phase0> <freq1> <mag1> <phase1> ...
+// PHASE <freq0> <phase0> <freq1> <phase1> ....
+// MAG <freq0> <mag0> <freq1> <phase1> ...
+
+
+void spectrumdraw2_datalist_internal(t_spectrumdraw2* x, t_atom_long display, double sample_rate, uintptr_t fft_size, uintptr_t fft_size_log2, bool has_mag, bool has_phase, long argc, t_atom* argv, FFT_SPLIT_COMPLEX_D spectrum, float* amp_vals, float* phase_vals) {
+    //post("===== datalist_internal =====\n");
+    //post("display: %l, argc: %l, fft_size: %u\n", display, argc, fft_size);
+
+    /*t_atom_long read_chan = x->read_chan - 1;
+
+    t_symbol* buffer = atom_getsym(argv);
+    if (buffer_check((t_object*)x, buffer))
+        return;
+
+    intptr_t length = buffer_length(buffer);
+   
+
+    // Allocate and check temporary memory
+
+    temp_fft_setup fft_setup(fft_size_log2);
+    */
+
+    // temp_ptr<float> in_buf(length);
+    temp_ptr<double> temp(fft_size * 2);
+
+    //if(!fft_setup || !in_buf || 
+    if(   !temp)
+    {
+        object_error((t_object*)x, "could not allocate internal memory for analysis");
+        return;
+    }
+
+    spectrum.realp = temp.get() + fft_size;
+    spectrum.imagp = spectrum.realp + (fft_size >> 1);
+
+    /*// Read buffer and do FFT
+    intptr_t offset = 0;
+    buffer_read_part(buffer, read_chan, in_buf.get(), offset, length);
+    time_to_halfspectrum_float(fft_setup, in_buf.get(), length, spectrum, fft_size);
+    */
+
+    // Calculate Powers and Phases
+    t_atom_float sym = atom_getfloat((atom*)(argv));
+    post("%u items: 0::%f\n", argc, sym);
+    for(uintptr_t i0 = 1; i0 < argc; i0++) {
+        sym = atom_getfloat((atom*)(argv + i0));
+        post(", %u::%f\n", i0, sym);
+    }
+    post("\n");
+
+    uintptr_t mg_incr = (has_mag ? 1 : 0);
+    uintptr_t ph_incr = (has_phase ? 1 : 0);
+    uintptr_t incr = 1 + mg_incr + ph_incr;
+    ph_incr += mg_incr;
+    ldiv_t divResult = div(argc, (long)incr);
+    uintptr_t n_ph = 0, n_mg = 0;
+    uintptr_t rem = (uintptr_t)divResult.rem;
+    uintptr_t n = (uintptr_t)divResult.quot + (rem > 1 ? 1 : 0);
+    uintptr_t j = 0, k = 0;
+
+    /*post("n: %u (%u, %u); incr = %u = %u + %u\n",
+         n, n_mg, n_ph, incr, mg_incr, ph_incr);*/
+
+    
+    t_atom_float ph0 = 0., ph =0., ph1 = 0.;
+    t_atom_float mg0 = 0., mg = 0., mg1 = 0.;
+    t_atom_float frq0 = 0., frq = 0., frq1 = 0.;
+    t_atom_float frqDist = 0., phDist = 0., mgDist = 0.;
+    t_atom_float distRatio = 0.;
+
+    // FFT size is window size (or frame size)?
+    float frameSize = (float)fft_size; // Or = (float)(fft_size/2)?
+    t_atom_float fundFreq = sample_rate / fft_size;
+
+    bool do_smooth = (x->oct_smooth > 0.0); // TODO: Or cast?
+    
+    /*post("fundFreq = SR*frameSize = %f*%f = %f\n",
+         sample_rate, frameSize, fundFreq);*/
+    
+    frq0 = atom_getfloat(argv);
+    if(frq0 < 0.0) {
+        object_warn((t_object*)x, "A negative frequency value was received! Frequencies should be positive Hz values in ascending order. (%f @ index %u)\n", frq0, 0);
+    }
+    t_atom_float frq00 = frq0;
+    bool dataStartsAtZeroHz = (frq0 == 0.0);
+    frq1 = ((n > 1) ? atom_getfloat(argv + incr) : frq0);
+    if(n > 1 && frq1 < 0.0) {
+        object_warn((t_object*)x, "A negative frequency value was received! Frequencies should be positive Hz values in ascending order. (%f @ index %u)\n", frq1, 1);
+    }
+    frqDist = frq1 - frq0;
+    if(frqDist < 0.0) {
+        object_warn((t_object*)x, "Data list out of order! Frequencies should be positive Hz values in ascending order. (%f @ index 0  > %f @ index 1)\n", frq0, frq1);
+    }
+    if(frq1 < 0.0) {
+                    object_warn((t_object*)x, "A negative frequency value was received! Frequencies should be positive Hz values in ascending order. (%f @ index %u)\n", frq1, j);
+                }
+
+    float *phase_data, *mag_data;
+    bool mag_data_available = false, phase_data_available = false;
+    uintptr_t ii = (fft_size >> 1);
+
+    uintptr_t phase_data_size = 0, mag_data_size = 0;
+
+    if(!(!n) && has_phase) {
+        ph0 = atom_getfloat(argv + 0 + ph_incr);
+        //phase_vals[0] = ph0;
+        n_ph = n - (rem > ph_incr ? 1 : 0);
+        //if(has_phase && (rem > ph_incr)) //&& n > 0)
+        //    n_ph--;
+        //if(x->phase_data[display].current_size)
+            clear_mem_swap(&x->phase_data[display]);
+        if(n_ph == 0) {
+            ph1 = ph0;
+        } else {
+            phase_data_available = true;
+            ph1 = ((1 < n_ph) ? atom_getfloat(argv + incr + ph_incr) : ph0);
+            /*
+            *  float* amp_vals = (float*)schedule_equal_mem_swap(&x->curve_data[display], (fft_size + 2) * sizeof(float), fft_size);
+                float* phase_vals = amp_vals + (fft_size >> 1) + 1;
+                */
+        }
+        phase_data = (float*)schedule_equal_mem_swap(&x->phase_data[display], (fft_size+2) * sizeof(float), fft_size);
+        phase_data_size = fft_size;
+        post("n_ph: %u, ph0: %f, ph1: %f\n", n_ph, ph0, ph1);
+    } else {
+        phase_data = (float*)access_mem_swap(&x->phase_data[display], &n_ph);
+        //post("Phase data size: %u\n", n_ph);
+        ph0 = ((n_ph < 1) ? 0.0 : phase_data[0]);
+        ph1 = ((1 < n_ph) ? phase_data[1] : ph0);
+        phase_data_size = n_ph;
+    }
+    if(n_ph && !phase_data)
+    {
+        object_error((t_object*)x, "could not allocate internal memory for analysis (phase_data: @:  %p)\n", phase_data);
+        return;
+    }
+    
+    
+    if(!(!n) && has_mag) {
+        n_mg = n - (rem > mg_incr ? 1 : 0);
+        //if(has_mag && (rem > mg_incr))// && n_mg > 0)
+        //    n_mg--;
+        mg0 = atom_getfloat(argv + 0 + mg_incr);
+        /*spectrum.realp[0] = mg0 * cos(ph0);
+        spectrum.imagp[0] = mg0 * sin(ph0);
+        temp[0] = spectrum.realp[0] * spectrum.realp[0];
+        if(!do_smooth)
+            amp_vals[0] = mg0;*/
+        //if(x->mag_data[display].current_size)
+        clear_mem_swap(&x->mag_data[display]);
+        if(n_mg == 0) {
+            mg1 = mg0;
+        } else {
+            mag_data_available = true;
+            mg1 = ((1 < n_mg) ? atom_getfloat(argv + incr + mg_incr) : mg0);
+            //ph1 = ((1 < n_ph) ? atom_getfloat(argv + incr + ph_incr) : ph0);
+            /* float* amp_vals = (float*)schedule_equal_mem_swap(&x->curve_data[display], (fft_size + 2) * sizeof(float), fft_size);
+            float* phase_vals = amp_vals + (fft_size >> 1) + 1;
+            */
+            mag_data = (float*)schedule_equal_mem_swap(&x->mag_data[display], (fft_size+2) * sizeof(float), fft_size);
+            // TODO: Move out of conditional block??
+            mag_data_size = fft_size;
+        }
+        post("n_mg: %u, mg0: %f, mg1: %f\n", n_mg, mg0, mg1);
+    } else {
+        mag_data = (float*)access_mem_swap(&x->mag_data[display], &n_mg);
+        mg0 = ((n_mg < 1) ? 0.0 : mag_data[0]);
+        mg1 = ((1 < n_mg) ? mag_data[1] : mg0);
+        mag_data_size = n_mg;
+    }
+    if(n_mg && !mag_data)//if(!amp_vals)
+    {
+        object_error((t_object*)x, "could not allocate internal memory for analysis (mag_data: @:  %p \n", mag_data);
+        return;
+    }
+
+    phase_vals[0] = static_cast<float>(ph0);
+    //phase_vals[ii] = phase_vals[0];
+    spectrumdraw2_phase_wrap(phase_vals + 0);
+
+    spectrum.realp[0] = 2.0*static_cast<double>(mg0) * cos(static_cast<double>(ph0));
+    spectrum.imagp[0] = 2.0*static_cast<double>(mg0) * sin(static_cast<double>(ph0));
+    //spectrum.realp[ii] = spectrum.realp[0];
+    //spectrum.imagp[ii] = spectrum.imagp[0];
+    temp[0] = spectrum.realp[0] * spectrum.realp[0];
+    //temp[ii] = temp[0];
+    //if(!do_smooth) {
+        amp_vals[0] = static_cast<float>(mg0);
+        //amp_vals[ii] = amp_vals[0];
+    //}
+    
+    k = 1; j = incr;
+    object_post((t_object*)x,"%03u//%04u : <%f, %f>@%fHz // (%4.4g, %4.4g)  ==>  %03u//%04u : <%f, %f>@%fHz\n",
+         0, 0, mg0, ph0, frq0, spectrum.realp[0], spectrum.imagp[0], k, j, mg1, ph1, frq1);
+
+    object_post((t_object*)x, "STARTING MAIN LOOP.\n");
+    //// MAIN LOOP ////
+    // i is bin number!!
+    for(uintptr_t i = 1; i < (fft_size >> 1); i++)
+    {
+        ii++;
+        frq += fundFreq; // This bin's frequency
+        if(frq <= frq00 || (k >= n_ph && k >= n_mg)) {
+            // Use old j, don't increment
+            mg = mg0; ph = ph0;
+            spectrum.realp[i] = spectrum.realp[i - 1];
+            spectrum.imagp[i] = spectrum.imagp[i - 1];
+        } else {
+            // Require: frq0<=frq<frq1
+            while((frq1 < frq) && (k < n)) {
+                //post("frq1 %f is less than frq %f, k %u < n %u\n", frq1, frq, k, n);
+                frq0 = frq1; ph0 = ph1; mg0 = mg1;
+                k++;
+                j += incr;
+                frq1 = (k < n ? atom_getfloat(argv + j) : frq0);
+                if(frq1 < 0.0) {
+                    object_warn((t_object*)x, "A negative frequency value was received! Frequencies should be positive Hz values in ascending order. (%f @ index %u)\n", frq1, j);
+                }
+                frqDist = frq1 - frq0;
+                if(frqDist < 0.0) {
+                    object_warn((t_object*)x, "Data list out of order! Frequencies should be positive Hz values in ascending order. (%f @ index %u  > %f @ index %u)\n", frq0, j - 1, frq1, j);
+                }
+                if(has_phase) {
+                    ph1 = ((k < n_ph) ? atom_getfloat(argv + j + ph_incr) : ph0);
+                } else {
+                    ph1 = ((k < n_ph) ? phase_data[k] : ph0);
+                }
+                if(has_mag) {
+                    mg1 = ((k < n_mg) ? atom_getfloat(argv + j + mg_incr) : mg0);
+                } else {
+                    mg1 = ((k < n_mg) ? mag_data[k] : mg0);
+                }
+                object_post((t_object*)x, "#### (%05u) %03u//%04u : <%4.4g, %4.4g>@%4.4gHz  ==>  %03u//%04u : <%4.4g, %4.4g>@%4.4gHz\n", i, k - 1, j - incr, mg0, ph0, frq0, k, j, mg1, ph1, frq1);
+            }
+
+            if(frqDist == 0) {
+                ph = ph0;
+                mg = mg0;
+            } else {
+                distRatio = (frq - frq0) / frqDist;
+                if(ph0 == ph1) {
+                    //post("ph0=ph1=%f=%f\n", ph0, ph1);
+                    ph = ph0;
+                } else {
+                    phDist = ph1 - ph0;
+                    ph = ph0 + (distRatio * phDist);
+                    //post("ph = ph0 + (ratio*phDist) = %f + (%f*%f) = %f\n", ph0, distRatio, phDist, ph);
+                }
+                if(mg0 == mg1) {
+                    //post("mg0=mg1=%f=%f\n", mg0, mg1);
+                    mg = mg0;
+
+                } else {
+                    mgDist = mg1 - mg0;
+                    mg = mg0 + (distRatio * mgDist);
+                    //post("mg = mg0 + (ratio*mgDist) = %f + (%f*%f) = %f\n", mg0, distRatio, mgDist, mg);
+                }
+            }
+
+            if(ph == phase_vals[i - 1] && mg==amp_vals[i - 1]) {//) {
+                spectrum.realp[i] = spectrum.realp[i - 1];
+                spectrum.imagp[i] = spectrum.imagp[i - 1];
+            } else {
+                spectrum.realp[i] = 2.0*mg * cos(ph);
+                spectrum.imagp[i] = 2.0*mg * sin(ph);
+            }
+            /*post("     %05u : <%f, %f>@%fz // (%4.4g, %4.4g)\n",
+                 i, mg, ph, frq, spectrum.realp[i], spectrum.imagp[i]);*/
+        }
+        temp[i] =  (spectrum.realp[i] * spectrum.realp[i]
+                         + spectrum.imagp[i] * spectrum.imagp[i]);
+        if(has_mag) {// && !do_smooth) {
+            amp_vals[i] = static_cast<float>(mg);
+        }
+
+        phase_vals[i] = static_cast<float>(ph);
+        spectrumdraw2_phase_wrap((float*)(phase_vals + i));
+
+        //spectrum.realp[ii] = spectrum.realp[i];
+        //spectrum.imagp[ii] = spectrum.imagp[i];
+
+        /*if(has_mag) {
+            temp[i] = mg;
+        } else {
+            temp[i] = (spectrum.realp[i] * spectrum.realp[i]) + (spectrum.imagp[i] * spectrum.imagp[i]);
+        }*/
+        //temp[i] = (spectrum.realp[i] * spectrum.realp[i]) + (spectrum.imagp[i] * spectrum.imagp[i]);
+        // phase_vals[i] = atan2f(static_cast<float>(spectrum.imagp[i]), static_cast<float>(spectrum.realp[i]));
+        /*post("     %05u : <%f, %f>@%4.4gHz // (%4.4g, %4.4g)\n",
+             i, mg, ph, frq, spectrum.realp[i], spectrum.imagp[i]);*/ // DON'T USE THIS ONE
+    }
+
+    /*temp[fft_size >> 1] = temp[fft_size >> 1 - 1];
+    phase_vals[fft_size >> 1] = ph1;
+    spectrumdraw2_phase_wrap((float*)(phase_vals + (fft_size >> 1)));*/
+    temp[fft_size >> 1] = spectrum.imagp[0] * spectrum.imagp[0];
+    phase_vals[fft_size >> 1] = phase_vals[0]; // TODO: ???//0.f;
+
+    uintptr_t i0 = 0;
+    
+    
+    /*temp_ptr<double> temp(fft_size * 2);
+    spectrum.realp = temp.get() + fft_size;
+    spectrum.imagp = spectrum.realp + (fft_size >> 1);*/
+    object_post((t_object*)x, "SPECTRUM (%u total = %u ?? + %u real + %u imag): ",
+         2 * fft_size, fft_size, fft_size >> 1, fft_size >> 1);
+    uintptr_t i00 = 0, i01 = 0, i02 = 0;
+    for(i0 = 0; i0 < fft_size; i0++) {
+        if(i0 == 0 || temp[i0] != temp[i0 - 1])
+            post("  %04u::__[%03u]:: %f\n", i0, i00++, temp[i0]);
+    }
+    post("\n");
+    i01 = 0; //i02 = 0;
+    i02 = fft_size >> 1;
+    for(; i0 < (fft_size >> 1); i0++) {
+        if(i01 != 0 && ((spectrum.realp[i01] == spectrum.realp[i01 - 1])
+           && (spectrum.imagp[i01] == spectrum.imagp[i01-1]))
+           && (i01 != (fft_size>>1) - 1))
+            post("  %4u::RI[%03u]:: %f // %f\n", i0, i01,
+                 spectrum.realp[i01], spectrum.imagp[i01]);
+        i01++;
+    }
+    post("\n");
+    object_post((t_object*)x, "MAG DATA (%u, %u): ", mag_data_size,
+                (has_mag ? 1 : 0));
+    for(i0 = 0; i0 < mag_data_size; i0++) {
+        if(i0 == 0 || mag_data[i0] != mag_data[i0 - 1] || i0 == mag_data_size-1)
+            post("  %u::%f", i0, mag_data[i0]);
+    }
+    post("\n");
+    object_post((t_object*)x, "PHASE DATA (%u, %u): ", phase_data_size,
+                (has_phase ? 1 : 0));
+    for(i0 = 0; i0 < phase_data_size; i0++) {
+        if(i0 == 0 || phase_data[i0] != phase_data[i0 - 1] || i0==phase_data_size-1)
+            post("  %u::%f\n", i0, phase_data[i0]);
+    }
+    post("\n");
+    // if(has_mag) // Condition??
+        /*spectrumdraw2_octave_smooth(temp.get(), amp_vals, (fft_size >> 1) + 1, x->oct_smooth);*/
+}
+
+void spectrumdraw2_datalist(t_spectrumdraw2* x, t_symbol* sym, long argc, t_atom* argv)
+{
+    //post("====== spectrumdraw2_datalist ======\n");
+    
+    FFT_SPLIT_COMPLEX_D spectrum;
+    t_atom_long display = 0;
+    /*t_atom mag_atom[3];
+    t_atom magphase_atom[8];
+    t_atom phase_atom[5];
+    atom_setchar_array(mag_atom, 3, "mag");
+    atom_setchar_array(magphase_atom, 8, "magphase");
+    atom_setchar_array(phase_atom, 5, "phase");
+    */
+
+    // Get arguments
+
+    if(!argc)
+    { // TODO
+        object_error((t_object*)x, "no arguments for datalist message");
+        return;
+    }
+
+    display = atom_getlong(argv++);
+    
+    /*if (argc > 2)
+        start_ms = atom_getfloat(argv + 2);
+    if (argc > 3)
+        end_ms = atom_getfloat(argv + 3);*/
+
+    // Check input buffer
+
+    // Check curve range
+
+    if(display < 0)
+        display = 0;
+    if(display > 4)//SPECTRUMDRAW2_NUM_CURVES)
+        display = 4;//SPECTRUMDRAW2_NUM_CURVES;
+    if(display)
+        display--;
+    //post("display: %ld,", (long)display);
+    bool has_mag, has_phase;
+    if((--argc)) {
+        t_symbol* mode = atom_getsym(argv++);
+        //post(" mode: %s,", mode->s_name);
+        argc--;
+        //t_symbol* buffer = atom_getsym(argv);
+        has_mag = strcmp(mode->s_name, "magphase") == 0;
+        has_phase = has_mag;
+        has_mag = has_mag || (0==strcmp(mode->s_name, "mag"));
+        has_phase = has_phase || (0 == strcmp(mode->s_name, "phase"));
+    } else {
+        // TODO
+        has_mag = false;
+        has_phase = false;
+    }
+
+    //post(" has_mag: %d, has_phase: %d,", (has_mag ? 1 : 0), (has_phase ? 1 : 0));
+
+    double start_ms = 0.0;
+    double end_ms = 0.0;
+
+    double sample_rate = x->sample_rate; // sys_getsr();//buffer_sample_rate(buffer);
+    double sample_rate2 = 2 * (x->sample_rate);
+    //post(" sample rate: %f,", sample_rate);
+    /*if (!end_ms)
+    {
+        end_ms = start_ms;
+        start_ms = 0;
+    }
+
+    if (start_ms < 0)
+        start_ms = 0;
+
+    if (end_ms < start_ms)
+        return;
+
+    if (!end_ms && !start_ms)
+        end_ms = HUGE_VAL;
+
+    start_ms *= sample_rate / 1000.0;
+    end_ms *= sample_rate / 1000.0;
+
+    intptr_t offset = static_cast<intptr_t>(start_ms);
+
+    if (length > end_ms)
+        length = static_cast<intptr_t>(end_ms);
+
+    length -= offset;*/
+
+    //end_ms = HUGE_VAL * sample_rate / 1000.0;
+    //start_ms = 0.0; //* sample_rate / 1000.0;
+    //intptr_t offset = static_cast<intptr_t>(start_ms);
+    //uintptr_t length = static_cast<intptr_t>(end_ms) - offset;
+    
+    /*uintptr_t length = static_cast<intptr_t>(HUGE_VAL * (uintptr_t)sample_rate / 1000);
+    post(" HUGE_VAL: %f=%d, length: %u\n", HUGE_VAL, HUGE_VAL, length);
+    if(length <= 0)
+        return;
+
+    // Calculate FFT size
+    uintptr_t fft_size_log2;
+    uintptr_t fft_size = calculate_fft_size(length, fft_size_log2);
+    */
+    bool inexact = false;
+    
+    uintptr_t fft_size = static_cast<intptr_t>(sample_rate)>>8;
+    uintptr_t fft_size_log2 = int_log2(fft_size, inexact);
+
+    //post("fft_size: %u, fft_size_log2: %u\n", fft_size, fft_size_log2);
+
+    // Allocate storage memory
+    float* amp_vals = (float*)schedule_equal_mem_swap(&x->curve_data[display], (fft_size + 2) * sizeof(float), fft_size);
+    float* phase_vals = amp_vals + (fft_size >> 1) + 1;
+    //uintptr_t curve_size;
+    //access_mem_swap(&x->curve_data[display], &curve_size);
+    //post("Curve data size: %u\n", curve_size);
+    if(!amp_vals)
+    {
+        object_error((t_object*)x, "could not allocate internal memory for data storage");
+        return;
+    }
+
+    if((has_mag || has_phase) && (argc > 1)) {
+        spectrumdraw2_datalist_internal(x, display, sample_rate, fft_size, fft_size_log2, has_mag, has_phase, argc, argv, spectrum, amp_vals, phase_vals);
+    } else {
+        // TODO: Mode specified (or automatically set to magphase), but no data given
+        //post("TODO: No data given!\n");
+        clear_mem_swap(&x->phase_data[display]);
+        clear_mem_swap(&x->mag_data[display]);
+        clear_mem_swap(&x->curve_data[display]);
+    }
+    
+    //post("Doing redraw...\n");
+    x->curve_sr[display] = sample_rate;
+    x->curve_freeze[display] = 2;
+    // Redraw
+    spectrumdraw2_calc_selection_data(x);
+    jbox_redraw((t_jbox*)x);
+
+    uintptr_t i0 = 0;
+    object_post((t_object*)x,"AMPLITUDE VALUES (%u): ", fft_size>>1);
+    for(i0 = 0; i0 < fft_size>>1; i0++) {
+        if(i0==0 || amp_vals[i0] != amp_vals[i0-1] || i0==(fft_size>>1)-1)
+            post("  %u::%f\n", i0, amp_vals[i0]);
+    }
+    post("\n");
+    uintptr_t num_phase_vals = fft_size >> 1;//(fft_size + 2) - ((fft_size >> 1) + 1);
+    object_post((t_object*)x,"PHASE VALUES (%u):", num_phase_vals);
+    for(i0 = 0; i0 < num_phase_vals; i0++) {
+        if(i0 == 0 || phase_vals[i0] != phase_vals[i0 - 1] || i0==num_phase_vals-1)
+            post("  %u::%f\n", i0, phase_vals[i0]);
+    }
+    post("\n");
+}
+
+// \operatorname{ mod }\left(x + \pi, 2\pi\right) - \pi
+void spectrumdraw2_phase_wrap(float* ph) {
+    if(-PI <= *ph && *ph <= PI)
+        return;
+    *ph = fmodf(*ph + PI, 2 * PI) - PI;
+}
 
 //////////////////////////////////////////////////////////////////////////
 ///////////////////////////// Buffer Analysis ////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
 
-void spectrumdraw_buffer(t_spectrumdraw *x, t_symbol *sym, long argc, t_atom *argv)
+void spectrumdraw2_buffer(t_spectrumdraw2 *x, t_symbol *sym, long argc, t_atom *argv)
 {
     FFT_SPLIT_COMPLEX_D spectrum;
 
@@ -1444,6 +2016,8 @@ void spectrumdraw_buffer(t_spectrumdraw *x, t_symbol *sym, long argc, t_atom *ar
         object_error ((t_object *) x, "no arguments for extract message");
         return;
     }
+
+    
 
     t_symbol *buffer = atom_getsym(argv);
 
@@ -1549,14 +2123,14 @@ void spectrumdraw_buffer(t_spectrumdraw *x, t_symbol *sym, long argc, t_atom *ar
         temp[fft_size >> 1] = spectrum.imagp[0] * spectrum.imagp[0];
         phase_vals[fft_size >> 1] = 0.f;
 
-        spectrumdraw_octave_smooth(temp.get(), amp_vals, (fft_size >> 1) + 1, x->oct_smooth);
+        spectrumdraw2_octave_smooth(temp.get(), amp_vals, (fft_size >> 1) + 1, x->oct_smooth);
 
         x->curve_sr[display] = sample_rate;
         x->curve_freeze[display] = 2;
 
         // Redraw
 
-        spectrumdraw_calc_selection_data(x);
+        spectrumdraw2_calc_selection_data(x);
         jbox_redraw((t_jbox *) x);
     }
 }
@@ -1567,7 +2141,7 @@ void spectrumdraw_buffer(t_spectrumdraw *x, t_symbol *sym, long argc, t_atom *ar
 //////////////////////////////////////////////////////////////////////////
 
 
-void spectrumdraw_generate_window(t_spectrumdraw *x, uintptr_t window_size, uintptr_t fft_size)
+void spectrumdraw2_generate_window(t_spectrumdraw2 *x, uintptr_t window_size, uintptr_t fft_size)
 {
     t_window_type window_type = (t_window_type) x->window_type;
 
@@ -1717,12 +2291,12 @@ void spectrumdraw_generate_window(t_spectrumdraw *x, uintptr_t window_size, uint
 //////////////////////////////////////////////////////////////////////////
 
 
-void spectrumdraw_realtime(t_spectrumdraw *x, float *read_from, long phase_mode, long N)
+void spectrumdraw2_realtime(t_spectrumdraw2 *x, float *read_from, long phase_mode, long N)
 {
     FFT_SPLIT_COMPLEX_D spectrum;
 
-    uintptr_t fft_size = spectrumdraw_realtime_fft_size(x);
-    uintptr_t window_size = spectrumdraw_realtime_window_size(x);
+    uintptr_t fft_size = spectrumdraw2_realtime_fft_size(x);
+    uintptr_t window_size = spectrumdraw2_realtime_window_size(x);
     uintptr_t i, j;
 
     long curve_mode;
@@ -1769,11 +2343,11 @@ void spectrumdraw_realtime(t_spectrumdraw *x, float *read_from, long phase_mode,
 
     // Smooth
 
-    spectrumdraw_octave_smooth(in_temp_d, in_temp_f, (fft_size >> 1) + 1, x->oct_smooth);
+    spectrumdraw2_octave_smooth(in_temp_d, in_temp_f, (fft_size >> 1) + 1, x->oct_smooth);
 
     // Do Stats etc. Per Curve
 
-    for (j = 0; j < SPECTRUMDRAW_NUM_CURVES; j++)
+    for (j = 0; j < SPECTRUMDRAW2_NUM_CURVES; j++)
     {
         curve_mode = x->curve_mode[j];
 
@@ -1837,18 +2411,18 @@ void spectrumdraw_realtime(t_spectrumdraw *x, float *read_from, long phase_mode,
 //////////////////////////////////////////////////////////////////////////
 
 
-void spectrumdraw_perform64(t_spectrumdraw *x, t_object *dsp64, double **ins, long numins, double **outs, long numouts, long vec_size, long flags, void *userparam)
+void spectrumdraw2_perform64(t_spectrumdraw2 *x, t_object *dsp64, double **ins, long numins, double **outs, long numouts, long vec_size, long flags, void *userparam)
 {
     long write_pointer = x->write_pointer;
     long hop_pointer = x->hop_pointer;
     long block_write_pointer = write_pointer;
     long block_hop_pointer = hop_pointer;
-    long window_size = static_cast<long>(spectrumdraw_realtime_window_size(x));
+    long window_size = static_cast<long>(spectrumdraw2_realtime_window_size(x));
     long hop_size = static_cast<long>(x->redraw_time * x->sample_rate / 1000.0);
     long draw = 0;
     long i, j;
 
-    for (j = 0; j < SPECTRUMDRAW_NUM_CURVES; j++)
+    for (j = 0; j < SPECTRUMDRAW2_NUM_CURVES; j++)
     {
         if (attempt_mem_swap(x->realtime_io + j) == SWAP_FAILED)
             continue;
@@ -1870,7 +2444,7 @@ void spectrumdraw_perform64(t_spectrumdraw *x, t_object *dsp64, double **ins, lo
 
                 if (ATOMIC_INCREMENT(&x->draw_check) == 1)
                 {
-                    spectrumdraw_realtime(x, in_store + write_pointer, x->phase_mode, j);
+                    spectrumdraw2_realtime(x, in_store + write_pointer, x->phase_mode, j);
                     draw = 1;
                 }
                 ATOMIC_DECREMENT(&x->draw_check);
@@ -1901,11 +2475,11 @@ void spectrumdraw_perform64(t_spectrumdraw *x, t_object *dsp64, double **ins, lo
 //////////////////////////////////////////////////////////////////////////
 
 
-void spectrumdraw_dsp64(t_spectrumdraw *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags)
+void spectrumdraw2_dsp64(t_spectrumdraw2 *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags)
 {
     short i;
 
-    for (i = 0; i < SPECTRUMDRAW_NUM_CURVES; i++)
+    for (i = 0; i < SPECTRUMDRAW2_NUM_CURVES; i++)
     {
         if (count[i] > 0)
             x->sig_ins_valid[i] = true;
@@ -1914,9 +2488,9 @@ void spectrumdraw_dsp64(t_spectrumdraw *x, t_object *dsp64, short *count, double
     }
 
     x->sample_rate = samplerate;
-    check_realtime_io(x, spectrumdraw_realtime_fft_size(x));
+    check_realtime_io(x, spectrumdraw2_realtime_fft_size(x));
 
-    object_method(dsp64, gensym("dsp_add64"), x, spectrumdraw_perform64, 0, nullptr);
+    object_method(dsp64, gensym("dsp_add64"), x, spectrumdraw2_perform64, 0, nullptr);
 }
 
 
@@ -2041,7 +2615,7 @@ void frequency_label(char *text, double freq)
 //////////////////////////////////////////////////////////////////////////
 
 
-void spectrumdraw_jgraphics_paint_boxes(t_spectrumdraw *x, t_jgraphics *g, double width, double height, double sel_min_freq, double sel_max_freq, t_scale_vals *scale)
+void spectrumdraw2_jgraphics_paint_boxes(t_spectrumdraw2 *x, t_jgraphics *g, double width, double height, double sel_min_freq, double sel_max_freq, t_scale_vals *scale)
 {
     // Clear
 
@@ -2063,7 +2637,7 @@ void spectrumdraw_jgraphics_paint_boxes(t_spectrumdraw *x, t_jgraphics *g, doubl
 }
 
 
-void spectrumdraw_jgraphics_paint_grid(t_spectrumdraw *x, t_jgraphics *g, double width, double height, t_scale_vals *scale)
+void spectrumdraw2_jgraphics_paint_grid(t_spectrumdraw2 *x, t_jgraphics *g, double width, double height, t_scale_vals *scale)
 {
     // Do grid
 
@@ -2122,7 +2696,7 @@ void spectrumdraw_jgraphics_paint_grid(t_spectrumdraw *x, t_jgraphics *g, double
 }
 
 
-void spectrumdraw_jgraphics_paint_ticks(t_spectrumdraw *x, t_jgraphics *g, double width, double height, t_scale_vals *scale)
+void spectrumdraw2_jgraphics_paint_ticks(t_spectrumdraw2 *x, t_jgraphics *g, double width, double height, t_scale_vals *scale)
 {
     // Do ticks
 
@@ -2159,7 +2733,7 @@ void spectrumdraw_jgraphics_paint_ticks(t_spectrumdraw *x, t_jgraphics *g, doubl
 }
 
 
-void spectrumdraw_jgraphics_paint_markers(t_spectrumdraw *x, t_jgraphics *g, double width, double height, t_scale_vals *scale)
+void spectrumdraw2_jgraphics_paint_markers(t_spectrumdraw2 *x, t_jgraphics *g, double width, double height, t_scale_vals *scale)
 {
     // Do Markers
 
@@ -2176,7 +2750,7 @@ void spectrumdraw_jgraphics_paint_markers(t_spectrumdraw *x, t_jgraphics *g, dou
 }
 
 
-void spectrumdraw_jgraphics_curve_vertex (t_jgraphics *g, double x, double y, t_curve_style style)
+void spectrumdraw2_jgraphics_curve_vertex (t_jgraphics *g, double x, double y, t_curve_style style)
 {
     switch (style)
     {
@@ -2202,7 +2776,7 @@ void spectrumdraw_jgraphics_curve_vertex (t_jgraphics *g, double x, double y, t_
 }
 
 
-void spectrumdraw_jgraphics_paint_curve_internal(t_spectrumdraw *x, t_jgraphics *g, uintptr_t from, uintptr_t to, float *y_vals, t_scale_vals *scale, double zoom_factor, double sub_sample_render, double width, double height, t_jrgba *color, t_curve_style curve_style, t_subsample_style sub_sample_style)
+void spectrumdraw2_jgraphics_paint_curve_internal(t_spectrumdraw2 *x, t_jgraphics *g, uintptr_t from, uintptr_t to, float *y_vals, t_scale_vals *scale, double zoom_factor, double sub_sample_render, double width, double height, t_jrgba *color, t_curve_style curve_style, t_subsample_style sub_sample_style)
 {
     // Do Curve
 
@@ -2220,7 +2794,7 @@ void spectrumdraw_jgraphics_paint_curve_internal(t_spectrumdraw *x, t_jgraphics 
     if (x_pos > 0.0 && curve_style != DRAW_POINTS)
     {
         jgraphics_move_to (g, 0, yval_2_mouse(y_vals[from], scale));
-        spectrumdraw_jgraphics_curve_vertex(g, x_pos, yval_2_mouse(y_vals[from], scale), curve_style);
+        spectrumdraw2_jgraphics_curve_vertex(g, x_pos, yval_2_mouse(y_vals[from], scale), curve_style);
     }
     else
         jgraphics_move_to(g, x_pos, yval_2_mouse(y_vals[from], scale));
@@ -2230,7 +2804,7 @@ void spectrumdraw_jgraphics_paint_curve_internal(t_spectrumdraw *x, t_jgraphics 
         last_x_pos = x_pos;
         x_pos = bin_2_mouse(i, scale);
 
-        spectrumdraw_jgraphics_curve_vertex(g, x_pos, yval_2_mouse(y_vals[i], scale), curve_style);
+        spectrumdraw2_jgraphics_curve_vertex(g, x_pos, yval_2_mouse(y_vals[i], scale), curve_style);
 
         if ((x_pos - last_x_pos) < sub_sample_render)
             break;
@@ -2277,8 +2851,8 @@ void spectrumdraw_jgraphics_paint_curve_internal(t_spectrumdraw *x, t_jgraphics 
                     min_y = yval_2_mouse(min_y, scale);
                     max_y = yval_2_mouse(max_y, scale);
 
-                    spectrumdraw_jgraphics_curve_vertex(g, x_min_pos, min_y, curve_style);
-                    spectrumdraw_jgraphics_curve_vertex(g, x_max_pos, max_y, curve_style);
+                    spectrumdraw2_jgraphics_curve_vertex(g, x_min_pos, min_y, curve_style);
+                    spectrumdraw2_jgraphics_curve_vertex(g, x_max_pos, max_y, curve_style);
 
                     last_x_draw = x_max_pos;
                 }
@@ -2287,8 +2861,8 @@ void spectrumdraw_jgraphics_paint_curve_internal(t_spectrumdraw *x, t_jgraphics 
                     min_y = yval_2_mouse(min_y, scale);
                     max_y = yval_2_mouse(max_y, scale);
 
-                    spectrumdraw_jgraphics_curve_vertex(g, x_max_pos, max_y, curve_style);
-                    spectrumdraw_jgraphics_curve_vertex(g, x_min_pos, min_y, curve_style);
+                    spectrumdraw2_jgraphics_curve_vertex(g, x_max_pos, max_y, curve_style);
+                    spectrumdraw2_jgraphics_curve_vertex(g, x_min_pos, min_y, curve_style);
 
                     last_x_draw = x_min_pos;
                 }
@@ -2319,7 +2893,7 @@ void spectrumdraw_jgraphics_paint_curve_internal(t_spectrumdraw *x, t_jgraphics 
                 }
 
                 max_y = yval_2_mouse(max_y, scale);
-                spectrumdraw_jgraphics_curve_vertex(g, x_max_pos, max_y, curve_style);
+                spectrumdraw2_jgraphics_curve_vertex(g, x_max_pos, max_y, curve_style);
 
                 last_x_draw = x_pos;
             }
@@ -2343,7 +2917,7 @@ void spectrumdraw_jgraphics_paint_curve_internal(t_spectrumdraw *x, t_jgraphics 
                 }
 
                 accum_val = yval_2_mouse(accum_val / count, scale);
-                spectrumdraw_jgraphics_curve_vertex(g, x_pos, accum_val, curve_style);
+                spectrumdraw2_jgraphics_curve_vertex(g, x_pos, accum_val, curve_style);
 
                 last_x_draw = x_pos;
             }
@@ -2360,22 +2934,22 @@ void spectrumdraw_jgraphics_paint_curve_internal(t_spectrumdraw *x, t_jgraphics 
 }
 
 
-void spectrumdraw_jgraphics_paint_curve(t_spectrumdraw *x, t_jgraphics *g, uintptr_t from, uintptr_t to, float *y_vals, t_scale_vals *scale, double zoom_factor, double sub_sample_render, double width, double height, t_jrgba *color)
+void spectrumdraw2_jgraphics_paint_curve(t_spectrumdraw2 *x, t_jgraphics *g, uintptr_t from, uintptr_t to, float *y_vals, t_scale_vals *scale, double zoom_factor, double sub_sample_render, double width, double height, t_jrgba *color)
 {
     t_curve_style curve_style = (t_curve_style) x->curve_style;
     t_subsample_style subsample_style = x->phase_mode ? SUBSAMPLE_FULL : (t_subsample_style) x->subsample_style;
 
     if (curve_style == DRAW_LINE_POLY)
     {
-        spectrumdraw_jgraphics_paint_curve_internal (x, g, from, to, y_vals, scale, zoom_factor, sub_sample_render, width, height, color, DRAW_POLY, subsample_style);
+        spectrumdraw2_jgraphics_paint_curve_internal (x, g, from, to, y_vals, scale, zoom_factor, sub_sample_render, width, height, color, DRAW_POLY, subsample_style);
         curve_style = DRAW_LINES;
     }
 
-    spectrumdraw_jgraphics_paint_curve_internal (x, g, from, to, y_vals, scale, zoom_factor, sub_sample_render, width, height, color, curve_style, subsample_style);
+    spectrumdraw2_jgraphics_paint_curve_internal (x, g, from, to, y_vals, scale, zoom_factor, sub_sample_render, width, height, color, curve_style, subsample_style);
 }
 
 
-void spectrumdraw_jgraphics_paint(t_spectrumdraw *x, t_object *patcherview, t_scale_vals *scale, double zoom_factor, double sub_sample_render, t_rect rect, double sel_min_freq, double sel_max_freq)
+void spectrumdraw2_jgraphics_paint(t_spectrumdraw2 *x, t_object *patcherview, t_scale_vals *scale, double zoom_factor, double sub_sample_render, t_rect rect, double sel_min_freq, double sel_max_freq)
 {
     t_jgraphics *g = jbox_start_layer((t_object *) x, patcherview, gensym("background_layer"), rect.width, rect.height);
     t_jgraphics *g2;
@@ -2387,10 +2961,10 @@ void spectrumdraw_jgraphics_paint(t_spectrumdraw *x, t_object *patcherview, t_sc
 
     if (g)
     {
-        spectrumdraw_jgraphics_paint_boxes(x, g, rect.width, rect.height, sel_min_freq, sel_max_freq, scale);
+        spectrumdraw2_jgraphics_paint_boxes(x, g, rect.width, rect.height, sel_min_freq, sel_max_freq, scale);
         if (x->grid_style != 2)
-            spectrumdraw_jgraphics_paint_grid(x, g, rect.width, rect.height, scale);
-        spectrumdraw_jgraphics_paint_markers(x, g, rect.width, rect.height, scale);
+            spectrumdraw2_jgraphics_paint_grid(x, g, rect.width, rect.height, scale);
+        spectrumdraw2_jgraphics_paint_markers(x, g, rect.width, rect.height, scale);
         jbox_end_layer((t_object*)x, patcherview, gensym("background_layer"));
     }
     jbox_paint_layer((t_object *) x, patcherview, gensym("background_layer"), rect.x, rect.y);
@@ -2400,7 +2974,7 @@ void spectrumdraw_jgraphics_paint(t_spectrumdraw *x, t_object *patcherview, t_sc
 
     if (g2)
     {
-        for (i = SPECTRUMDRAW_NUM_CURVES - 1; i >= 0; i--)
+        for (i = SPECTRUMDRAW2_NUM_CURVES - 1; i >= 0; i--)
         {
             if (x->curve_data[i].current_ptr)
             {
@@ -2410,20 +2984,20 @@ void spectrumdraw_jgraphics_paint(t_spectrumdraw *x, t_object *patcherview, t_sc
                     y_vals = (float *) x->curve_data[i].current_ptr;
 
                 jgraphics_set_line_width(g2, x->curve_thickness[i]);
-                spectrumdraw_set_fft_scaling(scale, x->curve_data[i].current_size, x->curve_sr[i], 1.0);
-                spectrumdraw_jgraphics_paint_curve(x, g2, scale->from, scale->to, y_vals, scale, zoom_factor, sub_sample_render, rect.width, rect.height, x->curve_colors + i);
+                spectrumdraw2_set_fft_scaling(scale, x->curve_data[i].current_size, x->curve_sr[i], 1.0);
+                spectrumdraw2_jgraphics_paint_curve(x, g2, scale->from, scale->to, y_vals, scale, zoom_factor, sub_sample_render, rect.width, rect.height, x->curve_colors + i);
                 jgraphics_set_line_width(g2, 1.0);
             }
         }
         if (x->grid_style > 1)
-            spectrumdraw_jgraphics_paint_ticks(x, g2, rect.width, rect.height, scale);
+            spectrumdraw2_jgraphics_paint_ticks(x, g2, rect.width, rect.height, scale);
         jbox_end_layer((t_object*)x, patcherview, gensym("curve_layer"));
     }
     jbox_paint_layer((t_object *) x, patcherview, gensym("curve_layer"), rect.x, rect.y);
 }
 
 
-void spectrumdraw_paint_labels(t_spectrumdraw *x, t_jgraphics *g, t_scale_vals *scale, double x_offset, double y_offset, double width, double height, double label_width, double label_height, double max_text_width, double max_text_height)
+void spectrumdraw2_paint_labels(t_spectrumdraw2 *x, t_jgraphics *g, t_scale_vals *scale, double x_offset, double y_offset, double width, double height, double label_width, double label_height, double max_text_width, double max_text_height)
 {
     // Do Text
 
@@ -2556,7 +3130,7 @@ void spectrumdraw_paint_labels(t_spectrumdraw *x, t_jgraphics *g, t_scale_vals *
 }
 
 
-void spectrumdraw_get_measurements(t_spectrumdraw *x, double *return_width, double *return_height, t_rect *rect)
+void spectrumdraw2_get_measurements(t_spectrumdraw2 *x, double *return_width, double *return_height, t_rect *rect)
 {
     // Do Text
 
@@ -2657,7 +3231,7 @@ void spectrumdraw_get_measurements(t_spectrumdraw *x, double *return_width, doub
 }
 
 
-void spectrumdraw_paint_selection_data(t_spectrumdraw *x, t_jgraphics *g, float *y_vals, t_scale_vals *scale, uintptr_t fft_size, double x_offset, double y_offset, double width, double height, double sel_min_freq, double sel_max_freq)
+void spectrumdraw2_paint_selection_data(t_spectrumdraw2 *x, t_jgraphics *g, float *y_vals, t_scale_vals *scale, uintptr_t fft_size, double x_offset, double y_offset, double width, double height, double sel_min_freq, double sel_max_freq)
 {
     // Selection + Point Stuff
 
@@ -2931,7 +3505,7 @@ void spectrumdraw_paint_selection_data(t_spectrumdraw *x, t_jgraphics *g, float 
 }
 
 
-void spectrumdraw_paint(t_spectrumdraw *x, t_object *patcherview)
+void spectrumdraw2_paint(t_spectrumdraw2 *x, t_object *patcherview)
 {
     t_rect rect, textrect;
     t_scale_vals scale;
@@ -2940,7 +3514,7 @@ void spectrumdraw_paint(t_spectrumdraw *x, t_object *patcherview)
     
     // Try to swap memory
 
-    for (short i = 0; i < SPECTRUMDRAW_NUM_CURVES; i++)
+    for (short i = 0; i < SPECTRUMDRAW2_NUM_CURVES; i++)
         attempt_mem_swap(x->curve_data + i);
 
     double min_freq = x->freq_range[0];
@@ -2966,9 +3540,9 @@ void spectrumdraw_paint(t_spectrumdraw *x, t_object *patcherview)
 
     rect = textrect;
 
-    spectrumdraw_get_measurements(x, &text_width, &text_height, &rect);
-    spectrumdraw_set_scale_vals(&scale, &rect, min_freq, max_freq, y_min, y_max, !x->linear_mode, !x->phase_mode);
-    spectrumdraw_grid_precalc(x, &scale, false);
+    spectrumdraw2_get_measurements(x, &text_width, &text_height, &rect);
+    spectrumdraw2_set_scale_vals(&scale, &rect, min_freq, max_freq, y_min, y_max, !(x->linear_mode), !(x->phase_mode));
+    spectrumdraw2_grid_precalc(x, &scale, false);
 
     // Load Display Parameters
 
@@ -2983,7 +3557,7 @@ void spectrumdraw_paint(t_spectrumdraw *x, t_object *patcherview)
 
     // Draw Background / Grid / Curves
 
-    spectrumdraw_jgraphics_paint(x, patcherview, &scale, zoom_factor, sub_sample_render, rect, sel_min_freq, sel_max_freq);
+    spectrumdraw2_jgraphics_paint(x, patcherview, &scale, zoom_factor, sub_sample_render, rect, sel_min_freq, sel_max_freq);
 
     // Draw Overlay Data and Labels
     
@@ -2992,10 +3566,10 @@ void spectrumdraw_paint(t_spectrumdraw *x, t_object *patcherview)
     if (x->phase_mode && x->curve_data[x->mouse_curve - 1].current_size)
         y_vals += (x->curve_data[x->mouse_curve - 1].current_size >> 1) + 1;
 
-    spectrumdraw_grid_precalc(x, &scale, true);
-    spectrumdraw_set_fft_scaling(&scale, x->curve_data[x->mouse_curve - 1].current_size, x->curve_sr[x->mouse_curve - 1], 1.0);
-    spectrumdraw_paint_selection_data(x, g, y_vals, &scale, x->curve_data[x->mouse_curve - 1].current_size, rect.x, rect.y, rect.width, rect.height, sel_min_freq, sel_max_freq);
-    spectrumdraw_paint_labels(x, g, &scale, rect.x, rect.y, rect.width, rect.height, textrect.width, textrect.height, text_width, text_height);
+    spectrumdraw2_grid_precalc(x, &scale, true);
+    spectrumdraw2_set_fft_scaling(&scale, x->curve_data[x->mouse_curve - 1].current_size, x->curve_sr[x->mouse_curve - 1], 1.0);
+    spectrumdraw2_paint_selection_data(x, g, y_vals, &scale, x->curve_data[x->mouse_curve - 1].current_size, rect.x, rect.y, rect.width, rect.height, sel_min_freq, sel_max_freq);
+    spectrumdraw2_paint_labels(x, g, &scale, rect.x, rect.y, rect.width, rect.height, textrect.width, textrect.height, text_width, text_height);
     
     // Draw Border
 
@@ -3025,12 +3599,12 @@ static inline t_symbol *get_attribname_symbol(const char *base_string, short N)
 }
 
 
-t_max_err spectrumdraw_notify(t_spectrumdraw *x, t_symbol *sym, t_symbol *msg, void *sender, void *data)
+t_max_err spectrumdraw2_notify(t_spectrumdraw2 *x, t_symbol *sym, t_symbol *msg, void *sender, void *data)
 {
     t_symbol *attrname;
 
-    uintptr_t fft_size = spectrumdraw_realtime_fft_size(x);
-    uintptr_t window_size = spectrumdraw_realtime_window_size(x);
+    uintptr_t fft_size = spectrumdraw2_realtime_fft_size(x);
+    uintptr_t window_size = spectrumdraw2_realtime_window_size(x);
     bool check_io = false;
 
     // check notification type
@@ -3070,7 +3644,7 @@ t_max_err spectrumdraw_notify(t_spectrumdraw *x, t_symbol *sym, t_symbol *msg, v
             check_realtime_io(x, new_fft_size);
         }
 
-        for (short i = 0; i < SPECTRUMDRAW_NUM_CURVES; i++)
+        for (short i = 0; i < SPECTRUMDRAW2_NUM_CURVES; i++)
         {
             if (get_attribname_symbol("mode", i) == attrname)
             {
@@ -3083,12 +3657,12 @@ t_max_err spectrumdraw_notify(t_spectrumdraw *x, t_symbol *sym, t_symbol *msg, v
         }
 
         if (check_io)
-            check_realtime_io(x, spectrumdraw_realtime_fft_size(x));
+            check_realtime_io(x, spectrumdraw2_realtime_fft_size(x));
 
         if (attrname == gensym("fftsize") || attrname == gensym("zeropad") || attrname == gensym("windowtype"))
-            spectrumdraw_generate_window(x, window_size, fft_size);
+            spectrumdraw2_generate_window(x, window_size, fft_size);
 
-        spectrumdraw_calc_selection_data(x);
+        spectrumdraw2_calc_selection_data(x);
         jbox_redraw((t_jbox *)x);
     }
 

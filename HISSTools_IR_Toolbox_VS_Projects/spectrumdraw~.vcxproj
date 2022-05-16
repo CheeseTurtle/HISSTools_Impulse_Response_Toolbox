@@ -24,19 +24,29 @@
     <ClCompile Include="..\HISSTools_IR_Toolbox_Common\HIRT_Frame_Stats.cpp" />
     <ClCompile Include="..\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT\HISSTools_FFT.cpp" />
     <ClCompile Include="..\HISSTools_IR_Toolbox_Dependencies\ibuffer_access.cpp" />
-    <ClCompile Include="..\HISSTools_IR_Toolbox_Objects\spectrumdraw~.cpp" />
+    <ClCompile Include="..\HISSTools_IR_Toolbox_Objects\spectrumdraw2~.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\symjuncs\j\pgmfiles86\Windows Kits\10\Include\10.0.20348.0\ucrt\ctype.h" />
     <ClInclude Include="..\HISSTools_IR_Toolbox_Common\HIRT_Buffer_Access.hpp" />
     <ClInclude Include="..\HISSTools_IR_Toolbox_Common\HIRT_Core_Functions.hpp" />
     <ClInclude Include="..\HISSTools_IR_Toolbox_Common\HIRT_Frame_Stats.hpp" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\AH_Atomic.h" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\AH_Memory_Swap.h" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\ibuffer.hpp" />
     <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\ibuffer_access.hpp" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\Interpolation.hpp" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\SIMDSupport.hpp" />
+    <ClInclude Include="..\HISSTools_IR_Toolbox_Dependencies\TableReader.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\x64\MaxAPI.lib" />
+    <Library Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\x64\MaxAudio.lib" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>spectrumdraw~</ProjectName>
+    <ProjectName>spectrumdraw2~</ProjectName>
     <ProjectGuid>{D9455555-0708-49ED-B0BC-5784FB117F15}</ProjectGuid>
     <RootNamespace>jslider</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -47,11 +57,11 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -67,11 +77,11 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -92,10 +102,28 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ExternalIncludePath>C:\Users\stan\Documents\GitHub\HISSTools_Impulse_Response_Toolbox\HISSTools_IR_Toolbox_Dependencies;C:\Users\stan\Documents\GitHub\HISSTools_Impulse_Response_Toolbox\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes;$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\um\x64;C:\Users\stan\symjuncs\j\pgmfiles86\Windows Kits\10\Include\10.0.20348.0\ucrt;$(UniversalCRT_IncludePath)</ExternalIncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(UniversalCRT_LibraryPath_x64)</LibraryPath>
+    <ReferencePath>$(VC_ReferencesPath_x64);</ReferencePath>
+    <SourcePath>$(VC_SourcePath);$(VC_CRT_SourcePath);</SourcePath>
+    <IncludePath>$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ExternalIncludePath>C:\Users\stan\Documents\GitHub\HISSTools_Impulse_Response_Toolbox\HISSTools_IR_Toolbox_Dependencies;C:\Users\stan\Documents\GitHub\HISSTools_Impulse_Response_Toolbox\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes;$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\um\x64;C:\Users\stan\symjuncs\j\pgmfiles86\Windows Kits\10\Include\10.0.20348.0\ucrt;$(UniversalCRT_IncludePath)</ExternalIncludePath>
+    <SourcePath>$(VC_SourcePath);$(VC_CRT_SourcePath);</SourcePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(UniversalCRT_LibraryPath_x64)</LibraryPath>
+    <IncludePath>$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;..\HISSTools_IR_Toolbox_Dependencies;..\HISSTools_IR_Toolbox_Common;..\..\Max6_support\c74support\max-includes;..\..\Max6_support\c74support\msp-includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\stan\symjuncs\j\pgmfiles86\Windows Kits\10\Include\10.0.20348.0\ucrt;..\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;..\HISSTools_IR_Toolbox_Dependencies;..\HISSTools_IR_Toolbox_Common;..\..\Max6_support\c74support\max-includes;..\..\Max6_support\c74support\msp-includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\x64\MaxAudio.lib;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\x64\MaxAPI.lib;$(CoreLibraryDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\um\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\ucrt\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -104,8 +132,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;..\HISSTools_IR_Toolbox_Dependencies;..\HISSTools_IR_Toolbox_Common;..\..\Max6_support\c74support\max-includes;..\..\Max6_support\c74support\msp-includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\stan\symjuncs\j\pgmfiles86\Windows Kits\10\Include\10.0.20348.0\ucrt;..\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;..\HISSTools_IR_Toolbox_Dependencies;..\HISSTools_IR_Toolbox_Common;..\..\Max6_support\c74support\max-includes;..\..\Max6_support\c74support\msp-includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\x64\MaxAudio.lib;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\x64\MaxAPI.lib;$(CoreLibraryDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\um\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\ucrt\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{1cedfb96-a1c1-438d-bc99-4aaf6ff84910}</ProjectGuid>
+    <RootNamespace>sdkbase</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\c74_jitter.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\c74_max.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\c74_msp.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\c74_ui.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\c74_ui_graphics.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.bin.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.byteorder.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.common.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.cpost.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.critical.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.cubicspline.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.error.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.file.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.fixmath.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.functor.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.cache.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.chunk.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.common.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.context.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.context.view.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.draw.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.drawinfo.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.ob3d.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.pixelformat.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.procs.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.support.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.glext.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.glext_nv.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gworld.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.half.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.linklist.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.mac.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.math.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.matrix.util.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.max.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.namespace.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.op.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.parallel.utils.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.platform.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.symbols.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.vecmath.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.wglext.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.window.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\max.jit.mop.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\commonsyms.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_anim.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_assist.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_atomarray.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_atombuf.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_atomic.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_backgroundtask.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_boxstyle.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_byteorder.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_charset.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_colors.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_common.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_critical.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_database.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_default.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_dictionary.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_dictobj.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_drag.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_dynamiccolor.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_event.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_expr.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_fun.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_globalsymbol.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_hashtab.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_infer_system.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_itm.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_linklist.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_maxtypes.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_menu.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_mess.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_midi.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_numc.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_obex.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_obex_util.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_obstring.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_oms.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_packages.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_parameter.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_path.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_post.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_preferences.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_prefix.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_prefix_includes.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_preprocessor.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_proto.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_proto_win.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_quickmap.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sndfile.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_strings.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_support.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_symobject.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sysfile.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sysmem.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sysmidi.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sysparallel.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sysprocess.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_syssem.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sysshmem.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_systhread.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_systime.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_time.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_timeline.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_track.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_typelist.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_user.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_wind.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_xmltree.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\indexmap.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\jdataview.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\jgraphics.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\jpatcher_api.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\jpatcher_syms.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\jpatcher_utils.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\max_keydefs.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\max_types.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\buffer.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\ext_buffer.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\MaxAudioAPI.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\r_pfft.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\z_altivec.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\z_dsp.h" />
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\z_sampletype.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\macho-prefix.pch" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\x64\jitlib.lib" />
+    <Library Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\x64\MaxAPI.lib" />
+    <Library Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\x64\MaxAudio.lib" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

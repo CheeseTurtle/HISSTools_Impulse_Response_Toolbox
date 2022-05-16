@@ -34,7 +34,6 @@
     <ProjectName>iruser~</ProjectName>
     <ProjectGuid>{67729D70-8176-4A7B-A37D-2AA13631A2DD}</ProjectGuid>
     <RootNamespace>jslider</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -45,11 +44,11 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -65,11 +64,11 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -90,10 +89,26 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <ExternalIncludePath>C:\Users\stan\Documents\GitHub\HISSTools_Impulse_Response_Toolbox\HISSTools_IR_Toolbox_Dependencies;C:\Users\stan\Documents\GitHub\HISSTools_Impulse_Response_Toolbox\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes;$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\um\x64;C:\Users\stan\symjuncs\j\pgmfiles86\Windows Kits\10\Include\10.0.20348.0\ucrt;$(UniversalCRT_IncludePath)</ExternalIncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(UniversalCRT_LibraryPath_x64)</LibraryPath>
+    <SourcePath>$(VC_SourcePath);$(VC_CRT_SourcePath);</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <ExternalIncludePath>C:\Users\stan\Documents\GitHub\HISSTools_Impulse_Response_Toolbox\HISSTools_IR_Toolbox_Dependencies;C:\Users\stan\Documents\GitHub\HISSTools_Impulse_Response_Toolbox\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes;$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\um\x64;C:\Users\stan\symjuncs\j\pgmfiles86\Windows Kits\10\Include\10.0.20348.0\ucrt;$(UniversalCRT_IncludePath)</ExternalIncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(UniversalCRT_LibraryPath_x64)</LibraryPath>
+    <SourcePath>$(VC_SourcePath);$(VC_CRT_SourcePath);</SourcePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;..\HISSTools_IR_Toolbox_Dependencies;..\HISSTools_IR_Toolbox_Common;..\..\Max6_support\c74support\max-includes;..\..\Max6_support\c74support\msp-includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\um\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\ucrt\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\x64\MaxAudio.lib;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\x64\MaxAPI.lib;$(CoreLibraryDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -104,6 +119,10 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\HISSTools_IR_Toolbox_Dependencies\HISSTools_FFT;..\HISSTools_IR_Toolbox_Dependencies;..\HISSTools_IR_Toolbox_Common;..\..\Max6_support\c74support\max-includes;..\..\Max6_support\c74support\msp-includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\um\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\ucrt\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\x64\MaxAudio.lib;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\x64\MaxAPI.lib;$(CoreLibraryDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,7 +8,7 @@
 
 // Define common attributes and the class name (for the common attributes file)
 
-#define OBJ_CLASSNAME t_iruser
+#define OBJ_CLASSNAME t_iruser2
 #define OBJ_USES_HIRT_WRITE_ATTR
 #define OBJ_USES_HIRT_OUT_PHASE_ATTR
 
@@ -19,7 +19,7 @@
 
 t_class *this_class;
 
-struct t_iruser
+struct t_iruser2
 {
     t_pxobject x_obj;
 
@@ -49,12 +49,12 @@ struct t_iruser
 t_max_err impulse_specification_setter(OBJ_CLASSNAME *x, t_object *attr, long argc, t_atom *argv);
 t_max_err response_specification_getter(OBJ_CLASSNAME *x, t_object *attr, long *argc, t_atom **argv);
 
-void *iruser_new(t_symbol *s, short argc, t_atom *argv);
-void iruser_free(t_iruser *x);
-void iruser_assist(t_iruser *x, void *b, long m, long a, char *s);
+void *iruser2_new(t_symbol *s, short argc, t_atom *argv);
+void iruser2_free(t_iruser2 *x);
+void iruser2_assist(t_iruser2 *x, void *b, long m, long a, char *s);
 
-void iruser_make(t_iruser *x, t_symbol *sym, long argc, t_atom *argv);
-void iruser_make_internal(t_iruser *x, t_symbol *sym, short argc, t_atom *argv);
+void iruser2_make(t_iruser2 *x, t_symbol *sym, long argc, t_atom *argv);
+void iruser2_make_internal(t_iruser2 *x, t_symbol *sym, short argc, t_atom *argv);
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -121,16 +121,16 @@ t_max_err response_specification_getter(OBJ_CLASSNAME *x, t_object *attr, long *
 
 int C74_EXPORT main()
 {
-    this_class = class_new("iruser~",
-                          (method) iruser_new,
-                          (method)iruser_free,
-                          sizeof(t_iruser),
+    this_class = class_new("iruser2~",
+                          (method) iruser2_new,
+                          (method)iruser2_free,
+                          sizeof(t_iruser2),
                           0L,
                           A_GIMME,
                           0);
 
-    class_addmethod(this_class, (method)iruser_make, "make", A_GIMME, 0L);
-    class_addmethod(this_class, (method)iruser_assist, "assist", A_CANT, 0L);
+    class_addmethod(this_class, (method)iruser2_make, "make", A_GIMME, 0L);
+    class_addmethod(this_class, (method)iruser2_assist, "assist", A_CANT, 0L);
 
     declare_HIRT_common_attributes(this_class);
 
@@ -144,9 +144,9 @@ int C74_EXPORT main()
 }
 
 
-void *iruser_new(t_symbol *s, short argc, t_atom *argv)
+void *iruser2_new(t_symbol *s, short argc, t_atom *argv)
 {
-    t_iruser *x = reinterpret_cast<t_iruser *>(object_alloc(this_class));
+    t_iruser2 *x = reinterpret_cast<t_iruser2 *>(object_alloc(this_class));
 
     x->make_done = bangout(x);
     x->response_specifier = (t_atom *) malloc(sizeof(t_atom) * HIRT_MAX_SPECIFIER_ITEMS);
@@ -167,14 +167,14 @@ void *iruser_new(t_symbol *s, short argc, t_atom *argv)
 }
 
 
-void iruser_free(t_iruser *x)
+void iruser2_free(t_iruser2 *x)
 {
     free_HIRT_common_attributes(x);
     free(x->response_specifier);
 }
 
 
-void iruser_assist(t_iruser *x, void *b, long m, long a, char *s)
+void iruser2_assist(t_iruser2 *x, void *b, long m, long a, char *s)
 {
     if (m == ASSIST_INLET)
         sprintf(s,"Instructions In");
@@ -188,13 +188,13 @@ void iruser_assist(t_iruser *x, void *b, long m, long a, char *s)
 //////////////////////////////////////////////////////////////////////////
 
 
-void iruser_make(t_iruser *x, t_symbol *sym, long argc, t_atom *argv)
+void iruser2_make(t_iruser2 *x, t_symbol *sym, long argc, t_atom *argv)
 {
-    defer(x, (method) iruser_make_internal, sym, (short) argc, argv);
+    defer(x, (method) iruser2_make_internal, sym, (short) argc, argv);
 }
 
 
-void iruser_make_internal(t_iruser *x, t_symbol *sym, short argc, t_atom *argv)
+void iruser2_make_internal(t_iruser2 *x, t_symbol *sym, short argc, t_atom *argv)
 {
     FFT_SPLIT_COMPLEX_D spectrum_1;
 

@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\c74_jitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\c74_max.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\c74_msp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\c74_ui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\c74_ui_graphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\commonsyms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_anim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_assist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_atomarray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_atombuf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_atomic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_backgroundtask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_boxstyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_byteorder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_charset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_colors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_critical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_default.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_dictionary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_dictobj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_drag.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_dynamiccolor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_expr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_fun.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_globalsymbol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_hashtab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_infer_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_itm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_linklist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_maxtypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_mess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_midi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_numc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_obex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_obex_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_obstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_oms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_packages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_parameter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_path.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_post.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_preferences.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_prefix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_prefix_includes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_preprocessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_proto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_proto_win.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_quickmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sndfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_strings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_support.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_symobject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sysfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sysmem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sysmidi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sysparallel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sysprocess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_syssem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_sysshmem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_systhread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_systime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_timeline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_track.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_typelist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_user.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_wind.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\ext_xmltree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\indexmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\jdataview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\jgraphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\jpatcher_api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\jpatcher_syms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\jpatcher_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\max_keydefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\max_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\ext_buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\MaxAudioAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\r_pfft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\z_altivec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\z_dsp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\z_sampletype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.bin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.byteorder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.cpost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.critical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.cubicspline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.fixmath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.functor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.cache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.chunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.context.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.context.view.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.draw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.drawinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.ob3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.pixelformat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.procs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gl.support.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.glext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.glext_nv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.gworld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.half.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.linklist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.mac.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.matrix.util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.max.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.namespace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.op.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.parallel.utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.symbols.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.vecmath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.wglext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\jit.window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\max.jit.mop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\macho-prefix.pch">
+      <Filter>Header Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\x64\MaxAudio.lib" />
+    <Library Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\jit-includes\x64\jitlib.lib" />
+    <Library Include="..\..\..\..\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\x64\MaxAPI.lib" />
+  </ItemGroup>
+</Project>
