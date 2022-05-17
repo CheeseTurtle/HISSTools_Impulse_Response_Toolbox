@@ -298,9 +298,9 @@ t_max_err phase_specification_getter(OBJ_CLASSNAME* x, t_object* attr, long* arg
 t_max_err magnitude_specification_setter(OBJ_CLASSNAME* x, t_object* attr, long argc, t_atom* argv);
 t_max_err magnitude_specification_getter(OBJ_CLASSNAME* x, t_object* attr, long* argc, t_atom** argv);
 */
-void spectrumdraw2_phase_wrap(float* ph);
+double spectrumdraw2_phase_wrap(double ph);
 void spectrumdraw2_datalist(t_spectrumdraw2* x, t_symbol* sym, long argc, t_atom* argv);
-void spectrumdraw2_datalist_internal(t_spectrumdraw2* x, t_atom_long display, double sample_rate, uintptr_t fft_size, uintptr_t fft_size_log2, bool has_mag, bool has_phase, long argc, t_atom* argv, FFT_SPLIT_COMPLEX_D spectrum, float* amp_vals, float* phase_vals);
+void spectrumdraw2_datalist_internal(t_spectrumdraw2* x, t_atom_long display, double fundFreq, uintptr_t fft_size, uintptr_t fft_size_log2, bool has_mag, bool has_phase, long argc, t_atom* argv, FFT_SPLIT_COMPLEX_D spectrum, float* amp_vals, float* phase_vals);
 void spectrumdraw2_buffer(t_spectrumdraw2 *x, t_symbol *sym, long argc, t_atom *argv);
 void spectrumdraw2_generate_window(t_spectrumdraw2 *x, uintptr_t window_size, uintptr_t fft_size);
 void spectrumdraw2_realtime(t_spectrumdraw2 *x, float *read_from, long phase_mode, long N);
@@ -1190,7 +1190,6 @@ void spectrumdraw2_octave_smooth(double *in, float *out, intptr_t size, double o
     }
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 ////////////////////////// Selection Calculation /////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -1494,7 +1493,7 @@ void spectrumdraw2_mousemove(t_spectrumdraw2 *x, t_object *patcherview, t_pt pt,
 // MAG <freq0> <mag0> <freq1> <phase1> ...
 
 
-void spectrumdraw2_datalist_internal(t_spectrumdraw2* x, t_atom_long display, double sample_rate, uintptr_t fft_size, uintptr_t fft_size_log2, bool has_mag, bool has_phase, long argc, t_atom* argv, FFT_SPLIT_COMPLEX_D spectrum, float* amp_vals, float* phase_vals) {
+void spectrumdraw2_datalist_internal(t_spectrumdraw2* x, t_atom_long display, double fundFreq, uintptr_t fft_size, uintptr_t fft_size_log2, bool has_mag, bool has_phase, long argc, t_atom* argv, FFT_SPLIT_COMPLEX_D spectrum, float* amp_vals, float* phase_vals) {
     //post("===== datalist_internal =====\n");
     //post("display: %l, argc: %l, fft_size: %u\n", display, argc, fft_size);
 
@@ -1533,12 +1532,13 @@ void spectrumdraw2_datalist_internal(t_spectrumdraw2* x, t_atom_long display, do
 
     // Calculate Powers and Phases
     t_atom_float sym = atom_getfloat((atom*)(argv));
-    post("%u items: 0::%f\n", argc, sym);
-    for(uintptr_t i0 = 1; i0 < argc; i0++) {
+    t_atom_float sym2 = atom_getfloat((atom*)(argv + argc - 1));
+    post("%u items: (0::%.15g - %u::%.15g\n", argc, sym, (argv + argc - 1), sym2);
+    /*for(uintptr_t i0 = 1; i0 < argc; i0++) {
         sym = atom_getfloat((atom*)(argv + i0));
         post(", %u::%f\n", i0, sym);
     }
-    post("\n");
+    post("\n");*/
 
     uintptr_t mg_incr = (has_mag ? 1 : 0);
     uintptr_t ph_incr = (has_phase ? 1 : 0);
@@ -1561,8 +1561,8 @@ void spectrumdraw2_datalist_internal(t_spectrumdraw2* x, t_atom_long display, do
     t_atom_float distRatio = 0.;
 
     // FFT size is window size (or frame size)?
-    float frameSize = (float)fft_size; // Or = (float)(fft_size/2)?
-    t_atom_float fundFreq = sample_rate / fft_size;
+    //float frameSize = (float)fft_size; // Or = (float)(fft_size/2)?
+    //t_atom_float fundFreq = sample_rate / fft_size;
 
     bool do_smooth = (x->oct_smooth > 0.0); // TODO: Or cast?
     
@@ -1666,31 +1666,34 @@ void spectrumdraw2_datalist_internal(t_spectrumdraw2* x, t_atom_long display, do
         return;
     }
 
-    phase_vals[0] = static_cast<float>(ph0);
+    phase_vals[0] = static_cast<float>(spectrumdraw2_phase_wrap(static_cast<double>(ph0)));
     //phase_vals[ii] = phase_vals[0];
-    spectrumdraw2_phase_wrap(phase_vals + 0);
 
-    spectrum.realp[0] = 2.0*static_cast<double>(mg0) * cos(static_cast<double>(ph0));
-    spectrum.imagp[0] = 2.0*static_cast<double>(mg0) * sin(static_cast<double>(ph0));
+    spectrum.realp[0] = static_cast<double>(mg0) * cos(static_cast<double>(ph0));
+    spectrum.imagp[0] = static_cast<double>(mg0) * sin(static_cast<double>(ph0));
     //spectrum.realp[ii] = spectrum.realp[0];
     //spectrum.imagp[ii] = spectrum.imagp[0];
-    temp[0] = spectrum.realp[0] * spectrum.realp[0];
+    //////temp[0] = spectrum.realp[0] * spectrum.realp[0];
+    temp[0] = (spectrum.realp[0] * spectrum.realp[0] + spectrum.imagp[0] * spectrum.imagp[0]);
+    // temp[0] = static_cast<double>(mg0);
     //temp[ii] = temp[0];
     //if(!do_smooth) {
-        amp_vals[0] = static_cast<float>(mg0);
+    amp_vals[0] = static_cast<float>(mg0);
+    ///////////amp_vals[0] = static_cast<float>(mg0) * static_cast<float>(mg0);
         //amp_vals[ii] = amp_vals[0];
     //}
     
     k = 1; j = incr;
-    object_post((t_object*)x,"%03u//%04u : <%f, %f>@%fHz // (%4.4g, %4.4g)  ==>  %03u//%04u : <%f, %f>@%fHz\n",
+    object_post((t_object*)x,"%03u//%04u : <%f, %f>@%fHz // (%g, %g)  ==>  %03u//%04u : <%f, %f>@%fHz\n",
          0, 0, mg0, ph0, frq0, spectrum.realp[0], spectrum.imagp[0], k, j, mg1, ph1, frq1);
 
     object_post((t_object*)x, "STARTING MAIN LOOP.\n");
     //// MAIN LOOP ////
     // i is bin number!!
+
     for(uintptr_t i = 1; i < (fft_size >> 1); i++)
     {
-        ii++;
+        ////////////ii++;
         frq += fundFreq; // This bin's frequency
         if(frq <= frq00 || (k >= n_ph && k >= n_mg)) {
             // Use old j, don't increment
@@ -1722,7 +1725,7 @@ void spectrumdraw2_datalist_internal(t_spectrumdraw2* x, t_atom_long display, do
                 } else {
                     mg1 = ((k < n_mg) ? mag_data[k] : mg0);
                 }
-                object_post((t_object*)x, "#### (%05u) %03u//%04u : <%4.4g, %4.4g>@%4.4gHz  ==>  %03u//%04u : <%4.4g, %4.4g>@%4.4gHz\n", i, k - 1, j - incr, mg0, ph0, frq0, k, j, mg1, ph1, frq1);
+                object_post((t_object*)x, "#### (%05u) %03u//%04u : <%g, %g>@%gHz  ==>  %03u//%04u : <%g, %g>@%gHz\n", i, k - 1, j - incr, mg0, ph0, frq0, k, j, mg1, ph1, frq1);
             }
 
             if(frqDist == 0) {
@@ -1753,20 +1756,20 @@ void spectrumdraw2_datalist_internal(t_spectrumdraw2* x, t_atom_long display, do
                 spectrum.realp[i] = spectrum.realp[i - 1];
                 spectrum.imagp[i] = spectrum.imagp[i - 1];
             } else {
-                spectrum.realp[i] = 2.0*mg * cos(ph);
-                spectrum.imagp[i] = 2.0*mg * sin(ph);
+                spectrum.realp[i] = static_cast<double>(mg) * cos(static_cast<double>(ph));
+                spectrum.imagp[i] = static_cast<double>(mg) * sin(static_cast<double>(ph));
             }
             /*post("     %05u : <%f, %f>@%fz // (%4.4g, %4.4g)\n",
                  i, mg, ph, frq, spectrum.realp[i], spectrum.imagp[i]);*/
         }
         temp[i] =  (spectrum.realp[i] * spectrum.realp[i]
                          + spectrum.imagp[i] * spectrum.imagp[i]);
+        /////temp[i] = static_cast<double>(mg);
         if(has_mag) {// && !do_smooth) {
             amp_vals[i] = static_cast<float>(mg);
         }
 
-        phase_vals[i] = static_cast<float>(ph);
-        spectrumdraw2_phase_wrap((float*)(phase_vals + i));
+        phase_vals[i] = static_cast<float>(spectrumdraw2_phase_wrap(static_cast<double>(ph)));
 
         //spectrum.realp[ii] = spectrum.realp[i];
         //spectrum.imagp[ii] = spectrum.imagp[i];
@@ -1785,50 +1788,66 @@ void spectrumdraw2_datalist_internal(t_spectrumdraw2* x, t_atom_long display, do
     /*temp[fft_size >> 1] = temp[fft_size >> 1 - 1];
     phase_vals[fft_size >> 1] = ph1;
     spectrumdraw2_phase_wrap((float*)(phase_vals + (fft_size >> 1)));*/
-    temp[fft_size >> 1] = spectrum.imagp[0] * spectrum.imagp[0];
-    phase_vals[fft_size >> 1] = phase_vals[0]; // TODO: ???//0.f;
+    // temp[fft_size >> 1] = spectrum.imagp[0] * spectrum.imagp[0];
+    temp[fft_size >> 1] = (
+        pow(static_cast<double>(mg1) * cos(static_cast<double>(ph1)), 2.0)
+        + pow(static_cast<double>(mg1) * sin(static_cast<double>(ph1)), 2.0));
+
+    //////temp[fft_size >> 1] = 2.0*static_cast<double>(mg1);
+    ////// amp_vals[fft_size >> 1] = 2.0 * static_cast<float>(mg1);
+    amp_vals[fft_size >> 1] = static_cast<float>(mg1);
+    phase_vals[fft_size >> 1] = static_cast<float>(spectrumdraw2_phase_wrap(static_cast<double>(ph1)));//phase_vals[0]; // TODO: ???//0.f;
+
 
     uintptr_t i0 = 0;
+    // if(has_mag) // Condition??
+        /*spectrumdraw2_octave_smooth(temp.get(), amp_vals, (fft_size >> 1) + 1, x->oct_smooth);*/
+    /*void spectrumdraw2_octave_smooth(double *in, float *out, intptr_t size, double oct_width)
+    for(i = 0; i < size; i++)
+        out[i] = static_cast<float>(in[i]);*/
+    double* in = temp.get();
+    for(i0 = 0; i0 < (fft_size >> 1) + 1; i0++)
+        amp_vals[i0] = static_cast<float>(temp[i0]);
     
     
     /*temp_ptr<double> temp(fft_size * 2);
     spectrum.realp = temp.get() + fft_size;
     spectrum.imagp = spectrum.realp + (fft_size >> 1);*/
-    object_post((t_object*)x, "SPECTRUM (%u total = %u ?? + %u real + %u imag): ",
-         2 * fft_size, fft_size, fft_size >> 1, fft_size >> 1);
-    uintptr_t i00 = 0, i01 = 0, i02 = 0;
-    for(i0 = 0; i0 < fft_size; i0++) {
-        if(i0 == 0 || temp[i0] != temp[i0 - 1])
-            post("  %04u::__[%03u]:: %f\n", i0, i00++, temp[i0]);
+    if(false) {
+        object_post((t_object*)x, "SPECTRUM (%u total = %u ?? + %u real + %u imag): \n",
+                    2 * fft_size, fft_size, fft_size >> 1, fft_size >> 1);
+        uintptr_t i00 = 0, i01 = 0, i02 = 0;
+        for(i0 = 0; i0 < fft_size; i0++) {
+            if(i0 == 0 || temp[i0] != temp[i0 - 1])
+                post("  %04u::__[%03u]:: %f\n", i0, i00++, temp[i0]);
+        }
+        post("\n");
+        i01 = 0; //i02 = 0;
+        i02 = fft_size >> 1;
+        for(; i0 < (fft_size >> 1); i0++) {
+            if(i01 != 0 && ((spectrum.realp[i01] == spectrum.realp[i01 - 1])
+                            && (spectrum.imagp[i01] == spectrum.imagp[i01 - 1]))
+               && (i01 != (fft_size >> 1) - 1))
+                post("  %4u::RI[%03u]:: %f // %f\n", i0, i01,
+                     spectrum.realp[i01], spectrum.imagp[i01]);
+            i01++;
+        }
+        post("\n");
+        object_post((t_object*)x, "MAG DATA (%u, %u): ", mag_data_size,
+                    (has_mag ? 1 : 0));
+        for(i0 = 0; i0 < mag_data_size; i0++) {
+            if(i0 == 0 || mag_data[i0] != mag_data[i0 - 1] || i0 == mag_data_size - 1)
+                post("  %u::%f", i0, mag_data[i0]);
+        }
+        post("\n");
+        object_post((t_object*)x, "PHASE DATA (%u, %u): ", phase_data_size,
+                    (has_phase ? 1 : 0));
+        for(i0 = 0; i0 < phase_data_size; i0++) {
+            if(i0 == 0 || phase_data[i0] != phase_data[i0 - 1] || i0 == phase_data_size - 1)
+                post("  %u::%f\n", i0, phase_data[i0]);
+        }
+        post("\n");
     }
-    post("\n");
-    i01 = 0; //i02 = 0;
-    i02 = fft_size >> 1;
-    for(; i0 < (fft_size >> 1); i0++) {
-        if(i01 != 0 && ((spectrum.realp[i01] == spectrum.realp[i01 - 1])
-           && (spectrum.imagp[i01] == spectrum.imagp[i01-1]))
-           && (i01 != (fft_size>>1) - 1))
-            post("  %4u::RI[%03u]:: %f // %f\n", i0, i01,
-                 spectrum.realp[i01], spectrum.imagp[i01]);
-        i01++;
-    }
-    post("\n");
-    object_post((t_object*)x, "MAG DATA (%u, %u): ", mag_data_size,
-                (has_mag ? 1 : 0));
-    for(i0 = 0; i0 < mag_data_size; i0++) {
-        if(i0 == 0 || mag_data[i0] != mag_data[i0 - 1] || i0 == mag_data_size-1)
-            post("  %u::%f", i0, mag_data[i0]);
-    }
-    post("\n");
-    object_post((t_object*)x, "PHASE DATA (%u, %u): ", phase_data_size,
-                (has_phase ? 1 : 0));
-    for(i0 = 0; i0 < phase_data_size; i0++) {
-        if(i0 == 0 || phase_data[i0] != phase_data[i0 - 1] || i0==phase_data_size-1)
-            post("  %u::%f\n", i0, phase_data[i0]);
-    }
-    post("\n");
-    // if(has_mag) // Condition??
-        /*spectrumdraw2_octave_smooth(temp.get(), amp_vals, (fft_size >> 1) + 1, x->oct_smooth);*/
 }
 
 void spectrumdraw2_datalist(t_spectrumdraw2* x, t_symbol* sym, long argc, t_atom* argv)
@@ -1892,9 +1911,8 @@ void spectrumdraw2_datalist(t_spectrumdraw2* x, t_symbol* sym, long argc, t_atom
     double start_ms = 0.0;
     double end_ms = 0.0;
 
-    double sample_rate = x->sample_rate; // sys_getsr();//buffer_sample_rate(buffer);
-    double sample_rate2 = 2 * (x->sample_rate);
-    //post(" sample rate: %f,", sample_rate);
+    /*double sample_rate = x->sample_rate; // sys_getsr();//buffer_sample_rate(buffer);
+    double sample_rate2 = 2 * (x->sample_rate);*/
     /*if (!end_ms)
     {
         end_ms = start_ms;
@@ -1936,7 +1954,11 @@ void spectrumdraw2_datalist(t_spectrumdraw2* x, t_symbol* sym, long argc, t_atom
     */
     bool inexact = false;
     
-    uintptr_t fft_size = static_cast<intptr_t>(sample_rate)>>8;
+    // FFT size is window size (or frame size)??
+    uintptr_t nyquist = static_cast<uintptr_t>(x->sample_rate);
+    uintptr_t fft_size = 2 * nyquist;
+    double fundFreq = x->sample_rate / static_cast<double>(fft_size);
+
     uintptr_t fft_size_log2 = int_log2(fft_size, inexact);
 
     //post("fft_size: %u, fft_size_log2: %u\n", fft_size, fft_size_log2);
@@ -1954,7 +1976,7 @@ void spectrumdraw2_datalist(t_spectrumdraw2* x, t_symbol* sym, long argc, t_atom
     }
 
     if((has_mag || has_phase) && (argc > 1)) {
-        spectrumdraw2_datalist_internal(x, display, sample_rate, fft_size, fft_size_log2, has_mag, has_phase, argc, argv, spectrum, amp_vals, phase_vals);
+        spectrumdraw2_datalist_internal(x, display, fundFreq, fft_size, fft_size_log2, has_mag, has_phase, argc, argv, spectrum, amp_vals, phase_vals);
     } else {
         // TODO: Mode specified (or automatically set to magphase), but no data given
         //post("TODO: No data given!\n");
@@ -1964,33 +1986,39 @@ void spectrumdraw2_datalist(t_spectrumdraw2* x, t_symbol* sym, long argc, t_atom
     }
     
     //post("Doing redraw...\n");
-    x->curve_sr[display] = sample_rate;
+    x->curve_sr[display] = x->sample_rate; // or 2*x->sample_rate ??
     x->curve_freeze[display] = 2;
     // Redraw
     spectrumdraw2_calc_selection_data(x);
     jbox_redraw((t_jbox*)x);
 
-    uintptr_t i0 = 0;
-    object_post((t_object*)x,"AMPLITUDE VALUES (%u): ", fft_size>>1);
-    for(i0 = 0; i0 < fft_size>>1; i0++) {
-        if(i0==0 || amp_vals[i0] != amp_vals[i0-1] || i0==(fft_size>>1)-1)
-            post("  %u::%f\n", i0, amp_vals[i0]);
+        uintptr_t i0 = 0;
+        object_post((t_object*)x, "AMPLITUDE VALUES (%u): ", fft_size >> 1);
+        for(i0 = 0; i0 < fft_size >> 1; i0++) {
+            if(i0 == 0 || amp_vals[i0] != amp_vals[i0 - 1] || i0 == (fft_size >> 1) - 1)
+                post("  %u::%f\n", i0, amp_vals[i0]);
+        }
+    if(false) {
+        post("\n");
+        uintptr_t num_phase_vals = fft_size >> 1;//(fft_size + 2) - ((fft_size >> 1) + 1);
+        object_post((t_object*)x, "PHASE VALUES (%u):", num_phase_vals);
+        for(i0 = 0; i0 < num_phase_vals; i0++) {
+            if(i0 == 0 || phase_vals[i0] != phase_vals[i0 - 1] || i0 == num_phase_vals - 1)
+                post("  %u::%f\n", i0, phase_vals[i0]);
+        }
+        post("\n");
     }
-    post("\n");
-    uintptr_t num_phase_vals = fft_size >> 1;//(fft_size + 2) - ((fft_size >> 1) + 1);
-    object_post((t_object*)x,"PHASE VALUES (%u):", num_phase_vals);
-    for(i0 = 0; i0 < num_phase_vals; i0++) {
-        if(i0 == 0 || phase_vals[i0] != phase_vals[i0 - 1] || i0==num_phase_vals-1)
-            post("  %u::%f\n", i0, phase_vals[i0]);
-    }
-    post("\n");
 }
 
 // \operatorname{ mod }\left(x + \pi, 2\pi\right) - \pi
-void spectrumdraw2_phase_wrap(float* ph) {
-    if(-PI <= *ph && *ph <= PI)
-        return;
-    *ph = fmodf(*ph + PI, 2 * PI) - PI;
+double spectrumdraw2_phase_wrap(double ph) {
+    if(-PI <= ph && ph <= PI)
+        return ph;
+    double ipart = 0.0;
+    modf(((ph + PI) / FFTW_TWOPI), &ipart);
+    return ipart * PI - PI;
+
+    /**ph = fmodf(*ph + PI, 2 * PI) - PI;*/
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -2752,6 +2780,7 @@ void spectrumdraw2_jgraphics_paint_markers(t_spectrumdraw2 *x, t_jgraphics *g, d
 
 void spectrumdraw2_jgraphics_curve_vertex (t_jgraphics *g, double x, double y, t_curve_style style)
 {
+    // post("Curve vertex @ (%f, %f)\n", x, y);
     switch (style)
     {
         case DRAW_LINES:
@@ -2791,6 +2820,10 @@ void spectrumdraw2_jgraphics_paint_curve_internal(t_spectrumdraw2 *x, t_jgraphic
     from = !from ? 1 : from;
     x_pos = bin_2_mouse(from, scale);
 
+    double last_y_val = y_vals[from];
+    //post("Vertex at (%u::%f, %f=%g)\n",
+    //     from, bin_2_freq(from, scale), last_y_val, last_y_val);
+    
     if (x_pos > 0.0 && curve_style != DRAW_POINTS)
     {
         jgraphics_move_to (g, 0, yval_2_mouse(y_vals[from], scale));
@@ -2801,6 +2834,11 @@ void spectrumdraw2_jgraphics_paint_curve_internal(t_spectrumdraw2 *x, t_jgraphic
 
     for (i = from + 1; i < to; i++)
     {
+        if(last_y_val != y_vals[i] || i==to-1) {
+            last_y_val = y_vals[i];
+            //post("Vertex at (%u::%f, %f=%f)\n",
+            //     i, bin_2_freq(i, scale), last_y_val,last_y_val);
+        }
         last_x_pos = x_pos;
         x_pos = bin_2_mouse(i, scale);
 
