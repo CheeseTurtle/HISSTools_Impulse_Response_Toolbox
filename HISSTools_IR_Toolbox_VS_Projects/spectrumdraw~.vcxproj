@@ -124,6 +124,12 @@
       <AdditionalDependencies>C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\x64\MaxAudio.lib;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\x64\MaxAPI.lib;$(CoreLibraryDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\um\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\ucrt\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>powershell.exe -NoLogo -NonInteractive -WindowStyle Hidden -File $(SolutionDir)\hiss_buildactions.ps1 -PreBuild</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>powershell.exe -NoLogo -NonInteractive -WindowStyle Hidden -File $(SolutionDir)\hiss_buildactions.ps1 -PostBuild</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -138,6 +144,12 @@
       <AdditionalDependencies>C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\msp-includes\x64\MaxAudio.lib;C:\Users\stan\Downloads\max-sdk-8.2-release\max-sdk\source\max-sdk-base\c74support\max-includes\x64\MaxAPI.lib;$(CoreLibraryDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\um\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.20348.0\ucrt\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>powershell.exe -NoLogo -NonInteractive -WindowStyle Hidden -File $(SolutionDir)\hiss_buildactions.ps1 -PreBuild</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>powershell.exe -NoLogo -NonInteractive -WindowStyle Hidden -File $(SolutionDir)\hiss_buildactions.ps1 -PostBuild</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
